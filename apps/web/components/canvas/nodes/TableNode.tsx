@@ -7,6 +7,33 @@
 
 import React, { useState, useCallback, useRef } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
+
+// Shared handle styles
+const TARGET_HANDLE_STYLE: React.CSSProperties = {
+  width:        10,
+  height:       10,
+  background:   '#93c5fd',
+  border:       '2px solid #fff',
+  borderRadius: '50%',
+  left:         -5,
+  top:          '50%',
+  transform:    'translateY(-50%)',
+  cursor:       'crosshair',
+};
+
+const FIELD_HANDLE_STYLE: React.CSSProperties = {
+  width:        8,
+  height:       8,
+  background:   '#1A3C6B',
+  border:       '2px solid #fff',
+  borderRadius: '50%',
+  right:        -4,
+  top:          '50%',
+  transform:    'translateY(-50%)',
+  opacity:      0,
+  transition:   'opacity 0.1s',
+  cursor:       'crosshair',
+};
 import { motion, AnimatePresence } from 'motion/react';
 import { useCanvasStore, makeField } from '../../../store/canvasStore';
 import type { TableNodeData, FieldType } from '@avanti/types';
@@ -168,19 +195,7 @@ export function TableNode({ id, data, selected }: NodeProps) {
         overflow:     'hidden',
       }}
     >
-      {/* Connection handles */}
-      <Handle
-        type="target"
-        position={Position.Top}
-        style={{ background: 'var(--color-brand-400)', width: 10, height: 10, border: 'none' }}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        style={{ background: 'var(--color-brand-400)', width: 10, height: 10, border: 'none' }}
-      />
-
-      {/* Header */}
+      {/* Header — target handle on the left (receives FK connections) */}
       <div
         style={{
           background:  tableData.isCore ? 'var(--color-gray-800)' : 'var(--color-brand-500)',
@@ -189,8 +204,15 @@ export function TableNode({ id, data, selected }: NodeProps) {
           alignItems:  'center',
           justifyContent: 'space-between',
           gap:         'var(--space-2)',
+          position:    'relative',
         }}
       >
+        <Handle
+          type="target"
+          position={Position.Left}
+          id="handle-target"
+          style={TARGET_HANDLE_STYLE}
+        />
         <div>
           <div
             style={{
@@ -274,8 +296,17 @@ export function TableNode({ id, data, selected }: NodeProps) {
               padding:    'var(--space-2) var(--space-4)',
               gap:        'var(--space-2)',
               borderBottom: '1px solid var(--color-gray-100)',
+              position:   'relative',  // needed for per-field Handle positioning
             }}
           >
+            {/* Source handle — drag from here to draw a FK arrow to another table */}
+            <Handle
+              type="source"
+              position={Position.Right}
+              id={`handle-source-${field.fieldId}`}
+              style={FIELD_HANDLE_STYLE}
+              className="field-source-handle"
+            />
             <span
               style={{
                 width:        8,
@@ -385,9 +416,12 @@ export function TableNode({ id, data, selected }: NodeProps) {
         </button>
       )}
 
-      {/* CSS for hover-show delete button */}
+      {/* CSS for hover-reveal: delete button and field source handles */}
       <style>{`
         .react-flow__node:hover .field-delete-btn {
+          opacity: 1 !important;
+        }
+        .react-flow__node:hover .field-source-handle {
           opacity: 1 !important;
         }
       `}</style>

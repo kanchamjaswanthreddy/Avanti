@@ -71,6 +71,9 @@ export interface CanvasStore {
   /** Sync positions from React Flow after node drag — no undo history */
   syncPositions(positionMap: Record<string, { x: number; y: number }>): void;
 
+  /** Sync FK edges from React Flow — no undo history */
+  setEdges(edges: CanvasEdge[]): void;
+
   // History
   undo(): void;
   redo(): void;
@@ -102,7 +105,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
       schoolId:       metaSchema.schoolId,
       baseMetaSchema: metaSchema,
       nodes,
-      edges:     [],
+      edges:     layout.edges ?? [],
       history:   [],
       future:    [],
       isDirty:   false,
@@ -172,6 +175,10 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     set({ nodes: updated, isDirty: true });
   },
 
+  setEdges(edges) {
+    set({ edges, isDirty: true });
+  },
+
   undo() {
     const { history, future, nodes, edges } = get();
     if (history.length === 0) return;
@@ -199,7 +206,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
   },
 
   async save(userId) {
-    const { canvasId, nodes, schoolId, baseMetaSchema } = get();
+    const { canvasId, nodes, edges, schoolId, baseMetaSchema } = get();
     if (!canvasId || !schoolId || !baseMetaSchema) return;
 
     set({ isSaving: true, saveError: null });
@@ -212,6 +219,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
         canvasId,
         schoolId,
         positions: positionMap,
+        edges,
         savedAt: new Date().toISOString(),
         savedBy: userId,
       };

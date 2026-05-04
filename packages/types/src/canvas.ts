@@ -70,9 +70,10 @@ export interface CanvasNode {
 
 export interface CanvasEdge {
   id: string;
-  source: string;       // source node id
-  target: string;       // target node id
-  label?: string;       // condition label for workflow branches
+  source: string;         // source node id (tableId)
+  target: string;         // target node id (tableId)
+  sourceHandle?: string;  // fieldId on the source table (the FK column)
+  label?: string;         // FK column name shown on the edge
   animated: boolean;
 }
 
@@ -86,11 +87,13 @@ export interface CanvasSnapshot {
   savedBy: string;      // userId
 }
 
-// Saved canvas layout (node positions only — schema data lives in _meta_schema)
+// Saved canvas layout (node positions + FK relationship edges)
+// Schema data lives in _meta_schema; this only stores layout/visual info.
 export interface CanvasLayout {
   canvasId: string;
   schoolId: string;
   positions: Record<string, { x: number; y: number }>;  // tableId → position
+  edges?: CanvasEdge[];  // FK relationship arrows between tables
   savedAt: string;
   savedBy: string;
 }

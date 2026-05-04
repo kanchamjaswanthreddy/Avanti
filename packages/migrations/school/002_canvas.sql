@@ -10,6 +10,7 @@ CREATE TABLE canvas_snapshots (
   school_id   UUID  NOT NULL,
   canvas_id   TEXT  NOT NULL,  -- 'schema' | 'role' | custom
   positions   JSONB NOT NULL DEFAULT '{}',  -- Record<tableId, {x, y}>
+  edges       JSONB NOT NULL DEFAULT '[]',  -- CanvasEdge[] (FK relationship arrows)
   saved_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   saved_by    UUID NOT NULL REFERENCES users(id),
   UNIQUE (school_id, canvas_id)  -- one layout per canvas per school

@@ -17,9 +17,9 @@ import {
   ReactFlow,
   Background,
   BackgroundVariant,
+  MarkerType,
   applyNodeChanges,
   applyEdgeChanges,
-  addEdge,
   type Node as RFNode,
   type Edge as RFEdge,
   type NodeChange,
@@ -37,7 +37,7 @@ import { TableNode } from './nodes/TableNode';
 import { Toolbar } from './Toolbar';
 import { SidePanel } from './SidePanel';
 import { ChangePreviewModal } from './ChangePreviewModal';
-import type { CanvasLayout, MetaSchema, SchemaChangeDescriptor } from '@avanti/types';
+import type { CanvasLayout, MetaSchema, SchemaChangeDescriptor, CanvasEdge, TableNodeData } from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -61,6 +61,43 @@ function toRFNode(n: CanvasNode): AvantiNode {
     position: n.position,
     data:     n.data as unknown as Record<string, unknown>,
     selected: n.selected,
+  };
+}
+
+// Shared FK edge visual style
+function buildEdgeStyle(label?: string): Partial<RFEdge> {
+  return {
+    type:      'smoothstep',
+    ...(label ? { label } : {}),
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#93c5fd', width: 16, height: 16 },
+    style:     { stroke: '#93c5fd', strokeWidth: 1.5 },
+    labelStyle:      { fontSize: 9, fill: '#9ca3af', fontFamily: 'JetBrains Mono, ui-monospace, monospace' },
+    labelBgStyle:    { fill: '#ffffff', fillOpacity: 0.92 },
+    labelBgPadding:  [4, 2] as [number, number],
+    labelBgBorderRadius: 3,
+  };
+}
+
+// CanvasEdge (persisted) → RFEdge (display)
+function toRFEdge(e: CanvasEdge): RFEdge {
+  return {
+    id:           e.id,
+    source:       e.source,
+    target:       e.target,
+    sourceHandle: e.sourceHandle,
+    ...buildEdgeStyle(e.label),
+  };
+}
+
+// RFEdge (display) → CanvasEdge (persisted)
+function fromRFEdge(e: RFEdge): CanvasEdge {
+  return {
+    id:           e.id,
+    source:       e.source,
+    target:       e.target,
+    sourceHandle: e.sourceHandle ?? undefined,
+    label:        typeof e.label === 'string' ? e.label : undefined,
+    animated:     false,
   };
 }
 
@@ -97,9 +134,11 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
 
   // ── Store ─────────────────────────────────────────────────────────────────
   const storeNodes     = useCanvasStore(s => s.nodes);
+  const storeEdges     = useCanvasStore(s => s.edges);
   const baseMetaSchema = useCanvasStore(s => s.baseMetaSchema);
   const loadCanvas     = useCanvasStore(s => s.loadCanvas);
   const syncPositions  = useCanvasStore(s => s.syncPositions);
+  const setEdges       = useCanvasStore(s => s.setEdges);
   const saveError      = useCanvasStore(s => s.saveError);
   const clearSaveError = useCanvasStore(s => s.clearSaveError);
   const save           = useCanvasStore(s => s.save);
@@ -135,14 +174,22 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
   const [rfNodes, setRfNodes] = useState<AvantiNode[]>([]);
   const [rfEdges, setRfEdges] = useState<RFEdge[]>([]);
 
-  // Keep a ref to current store nodes for save-time diff (avoids stale closure)
+  // Keep refs to current store state (avoid stale closures in callbacks)
   const storeNodesRef = useRef(storeNodes);
   storeNodesRef.current = storeNodes;
+  const rfEdgesRef = useRef(rfEdges);
+  rfEdgesRef.current = rfEdges;
 
   // Sync React Flow nodes when the store changes (load, schema ops, undo/redo)
   useEffect(() => {
     setRfNodes(storeNodes.map(toRFNode));
   }, [storeNodes]);
+
+  // Sync store edges → RF edges on initial canvas load (storeEdges.length changes)
+  useEffect(() => {
+    setRfEdges(storeEdges.map(toRFEdge));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeEdges.length === 0 ? 0 : storeEdges[0]?.id]);
 
   // ── RF callbacks ──────────────────────────────────────────────────────────
 
@@ -150,13 +197,50 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
     setRfNodes(prev => applyNodeChanges(changes, prev));
   }, []);
 
+  // Edge change (delete via keyboard, etc.) — sync to store
   const onEdgesChange = useCallback((changes: EdgeChange[]) => {
-    setRfEdges(prev => applyEdgeChanges(changes, prev));
-  }, []);
+    setRfEdges(prev => {
+      const updated = applyEdgeChanges(changes, prev);
+      rfEdgesRef.current = updated;
+      setEdges(updated.map(fromRFEdge));
+      return updated;
+    });
+  }, [setEdges]);
 
+  // New connection drawn — build a styled FK edge then sync to store
   const onConnect = useCallback((connection: Connection) => {
-    setRfEdges(prev => addEdge(connection, prev));
-  }, []);
+    if (!connection.source || !connection.target) return;
+
+    // Extract fieldId from handle ID "handle-source-{fieldId}"
+    const rawHandle = connection.sourceHandle ?? '';
+    const fieldId   = rawHandle.startsWith('handle-source-')
+      ? rawHandle.slice('handle-source-'.length)
+      : null;
+
+    // Find the column name for the FK label
+    const sourceNode = storeNodesRef.current.find(n => n.id === connection.source);
+    const field = fieldId && sourceNode?.type === 'TABLE'
+      ? (sourceNode.data as unknown as TableNodeData).fields.find(f => f.fieldId === fieldId)
+      : null;
+
+    const label = field?.columnName;
+
+    const newEdge: RFEdge = {
+      id:           `edge-${crypto.randomUUID()}`,
+      source:       connection.source,
+      target:       connection.target,
+      sourceHandle: connection.sourceHandle ?? undefined,
+      targetHandle: connection.targetHandle ?? undefined,
+      ...buildEdgeStyle(label),
+    };
+
+    setRfEdges(prev => {
+      const updated = [...prev, newEdge];
+      rfEdgesRef.current = updated;
+      setEdges(updated.map(fromRFEdge));
+      return updated;
+    });
+  }, [setEdges]);
 
   // Sync final positions back to store after drag (batched, no history push)
   const onNodeDragStop = useCallback(
@@ -297,7 +381,10 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
             fitViewOptions={{ padding: 0.15 }}
             minZoom={0.25}
             maxZoom={2}
-            deleteKeyCode={null}
+            deleteKeyCode="Backspace"
+            onNodesDelete={() => { /* guard: deletion handled in TableNode */ }}
+            connectionLineStyle={{ stroke: '#93c5fd', strokeWidth: 1.5 }}
+            connectionLineType="smoothstep"
             style={RF_WRAPPER_STYLE}
             proOptions={{ hideAttribution: true }}
           >
