@@ -192,19 +192,19 @@ export function TableNode({ id, data, selected }: NodeProps) {
         maxWidth:     320,
         boxShadow:    selected ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
         transition:   'border-color 0.15s ease, box-shadow 0.15s ease',
-        overflow:     'hidden',
       }}
     >
       {/* Header — target handle on the left (receives FK connections) */}
       <div
         style={{
-          background:  tableData.isCore ? 'var(--color-gray-800)' : 'var(--color-brand-500)',
-          padding:     'var(--space-3) var(--space-4)',
-          display:     'flex',
-          alignItems:  'center',
+          background:   tableData.isCore ? 'var(--color-gray-800)' : 'var(--color-brand-500)',
+          padding:      'var(--space-3) var(--space-4)',
+          display:      'flex',
+          alignItems:   'center',
           justifyContent: 'space-between',
-          gap:         'var(--space-2)',
-          position:    'relative',
+          gap:          'var(--space-2)',
+          position:     'relative',
+          borderRadius: 'var(--radius-md) var(--radius-md) 0 0',
         }}
       >
         <Handle
