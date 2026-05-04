@@ -1,0 +1,77 @@
+{
+  "common": {
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ…",
+    "error": "ಏನೋ ತಪ್ಪಾಯಿತು",
+    "save": "ಉಳಿಸಿ",
+    "cancel": "ರದ್ದುಮಾಡಿ",
+    "edit": "ಸಂಪಾದಿಸಿ",
+    "delete": "ಅಳಿಸಿ",
+    "confirm": "ದೃಢಪಡಿಸಿ",
+    "back": "ಹಿಂದೆ",
+    "next": "ಮುಂದೆ",
+    "search": "ಹುಡುಕಿ",
+    "filter": "ಫಿಲ್ಟರ್",
+    "all": "ಎಲ್ಲಾ",
+    "none": "ಯಾವುದೂ ಇಲ್ಲ",
+    "yes": "ಹೌದು",
+    "no": "ಇಲ್ಲ",
+    "viewAll": "ಎಲ್ಲ ನೋಡಿ",
+    "noData": "ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ"
+  },
+  "nav": {
+    "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "students": "ವಿದ್ಯಾರ್ಥಿಗಳು",
+    "classes": "ತರಗತಿಗಳು",
+    "attendance": "ಹಾಜರಾತಿ",
+    "fees": "ಶುಲ್ಕಗಳು",
+    "timetable": "ಸಮಯಪಟ್ಟಿ",
+    "canvas": "ಕ್ಯಾನ್ವಾಸ್",
+    "settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
+  },
+  "dashboard": {
+    "title": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "totalStudents": "ಒಟ್ಟು ವಿದ್ಯಾರ್ಥಿಗಳು",
+    "todayAttendance": "ಇಂದಿನ ಹಾಜರಾತಿ",
+    "outstandingFees": "ಬಾಕಿ ಶುಲ್ಕಗಳು",
+    "classes": "ತರಗತಿಗಳು"
+  },
+  "students": {
+    "title": "ವಿದ್ಯಾರ್ಥಿಗಳು",
+    "addStudent": "ವಿದ್ಯಾರ್ಥಿ ಸೇರಿಸಿ",
+    "name": "ಹೆಸರು",
+    "noStudents": "ವಿದ್ಯಾರ್ಥಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ."
+  },
+  "attendance": {
+    "title": "ಹಾಜರಾತಿ",
+    "saveAttendance": "ಹಾಜರಾತಿ ಉಳಿಸಿ",
+    "saved": "ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.",
+    "status": {
+      "PRESENT": "ಹಾಜರು",
+      "ABSENT": "ಗೈರು",
+      "HALF_DAY": "ಅರ್ಧ ದಿನ",
+      "LATE": "ತಡ"
+    }
+  },
+  "fees": {
+    "title": "ಶುಲ್ಕಗಳು",
+    "totalDue": "ಒಟ್ಟು ಬಾಕಿ",
+    "collected": "ಸಂಗ್ರಹಿಸಿದ",
+    "outstanding": "ಬಾಕಿ",
+    "defaulters": "ಬಾಕಿದಾರರು"
+  },
+  "timetable": {
+    "title": "ಸಮಯಪಟ್ಟಿ",
+    "period": "ಪಿರಿಯಡ್"
+  },
+  "ai": {
+    "title": "ವಿದ್ಯುತ್ AI",
+    "placeholder": "ಏನಾದರೂ ಕೇಳಿ…",
+    "thinking": "ಯೋಚಿಸುತ್ತಿದೆ…"
+  },
+  "auth": {
+    "login": "ಸೈನ್ ಇನ್",
+    "logout": "ಸೈನ್ ಔಟ್",
+    "email": "ಇಮೇಲ್",
+    "password": "ಪಾಸ್‌ವರ್ಡ್"
+  }
+}

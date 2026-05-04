@@ -1,0 +1,105 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है…",
+    "error": "कुछ गलत हुआ",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "confirm": "पुष्टि करें",
+    "back": "वापस",
+    "next": "अगला",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "all": "सभी",
+    "none": "कोई नहीं",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "viewAll": "सभी देखें",
+    "noData": "कोई डेटा नहीं मिला"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "students": "छात्र",
+    "classes": "कक्षाएं",
+    "attendance": "उपस्थिति",
+    "fees": "शुल्क",
+    "timetable": "समय सारिणी",
+    "canvas": "कैनवस",
+    "settings": "सेटिंग्स"
+  },
+  "dashboard": {
+    "title": "डैशबोर्ड",
+    "totalStudents": "कुल छात्र",
+    "todayAttendance": "आज की उपस्थिति",
+    "outstandingFees": "बकाया शुल्क",
+    "classes": "कक्षाएं",
+    "quickActions": "त्वरित क्रियाएं",
+    "markAttendance": "उपस्थिति दर्ज करें",
+    "markAttendanceDesc": "आज की कक्षा उपस्थिति दर्ज करें"
+  },
+  "students": {
+    "title": "छात्र",
+    "addStudent": "छात्र जोड़ें",
+    "admissionNo": "प्रवेश सं.",
+    "name": "नाम",
+    "class": "कक्षा",
+    "gender": "लिंग",
+    "parent": "अभिभावक",
+    "phone": "फोन",
+    "noStudents": "कोई छात्र नहीं मिला।",
+    "personalDetails": "व्यक्तिगत विवरण",
+    "parentGuardian": "माता-पिता / अभिभावक",
+    "dateOfBirth": "जन्म तिथि",
+    "email": "ईमेल",
+    "address": "पता",
+    "allClasses": "सभी कक्षाएं"
+  },
+  "attendance": {
+    "title": "उपस्थिति",
+    "subtitle": "कक्षा की दैनिक उपस्थिति दर्ज करें",
+    "selectClass": "कक्षा चुनें",
+    "markAll": "सभी को चिह्नित करें",
+    "saveAttendance": "उपस्थिति सहेजें",
+    "saving": "सहेजा जा रहा है…",
+    "saved": "उपस्थिति सफलतापूर्वक सहेजी गई।",
+    "status": {
+      "PRESENT": "उपस्थित",
+      "ABSENT": "अनुपस्थित",
+      "HALF_DAY": "अर्ध दिवस",
+      "LATE": "देर से"
+    }
+  },
+  "fees": {
+    "title": "शुल्क",
+    "subtitle": "संग्रह अवलोकन और बकाएदार",
+    "totalDue": "कुल देय",
+    "collected": "एकत्रित",
+    "outstanding": "बकाया",
+    "defaulters": "बकाएदार",
+    "allCollected": "सभी शुल्क एकत्रित। कोई बकाएदार नहीं।"
+  },
+  "timetable": {
+    "title": "समय सारिणी",
+    "subtitle": "साप्ताहिक कक्षा कार्यक्रम",
+    "selectClass": "कक्षा चुनें",
+    "period": "कालांश"
+  },
+  "ai": {
+    "title": "विद्युत AI",
+    "placeholder": "कुछ भी पूछें…",
+    "thinking": "सोच रहा है…",
+    "empty": "अपने स्कूल के बारे में कुछ भी पूछें",
+    "emptyDesc": "छात्र, उपस्थिति, शुल्क, समय सारिणी, रिपोर्ट…"
+  },
+  "auth": {
+    "login": "साइन इन करें",
+    "logout": "साइन आउट करें",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "schoolId": "स्कूल ID",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "signingIn": "साइन इन हो रहा है…",
+    "invalidCredentials": "गलत ईमेल या पासवर्ड।"
+  }
+}

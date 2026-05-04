@@ -1,0 +1,77 @@
+{
+  "common": {
+    "loading": "लोड होत आहे…",
+    "error": "काहीतरी चूक झाली",
+    "save": "जतन करा",
+    "cancel": "रद्द करा",
+    "edit": "संपादित करा",
+    "delete": "हटवा",
+    "confirm": "पुष्टी करा",
+    "back": "मागे",
+    "next": "पुढे",
+    "search": "शोधा",
+    "filter": "फिल्टर",
+    "all": "सर्व",
+    "none": "काहीही नाही",
+    "yes": "होय",
+    "no": "नाही",
+    "viewAll": "सर्व पहा",
+    "noData": "डेटा आढळला नाही"
+  },
+  "nav": {
+    "dashboard": "डॅशबोर्ड",
+    "students": "विद्यार्थी",
+    "classes": "वर्ग",
+    "attendance": "उपस्थिती",
+    "fees": "शुल्क",
+    "timetable": "वेळापत्रक",
+    "canvas": "कॅनव्हास",
+    "settings": "सेटिंग्ज"
+  },
+  "dashboard": {
+    "title": "डॅशबोर्ड",
+    "totalStudents": "एकूण विद्यार्थी",
+    "todayAttendance": "आजची उपस्थिती",
+    "outstandingFees": "थकीत शुल्क",
+    "classes": "वर्ग"
+  },
+  "students": {
+    "title": "विद्यार्थी",
+    "addStudent": "विद्यार्थी जोडा",
+    "name": "नाव",
+    "noStudents": "विद्यार्थी आढळले नाहीत."
+  },
+  "attendance": {
+    "title": "उपस्थिती",
+    "saveAttendance": "उपस्थिती जतन करा",
+    "saved": "उपस्थिती यशस्वीरीत्या जतन केली.",
+    "status": {
+      "PRESENT": "उपस्थित",
+      "ABSENT": "अनुपस्थित",
+      "HALF_DAY": "अर्धा दिवस",
+      "LATE": "उशिरा"
+    }
+  },
+  "fees": {
+    "title": "शुल्क",
+    "totalDue": "एकूण देय",
+    "collected": "जमा केलेले",
+    "outstanding": "थकीत",
+    "defaulters": "थकबाकीदार"
+  },
+  "timetable": {
+    "title": "वेळापत्रक",
+    "period": "तास"
+  },
+  "ai": {
+    "title": "विद्युत AI",
+    "placeholder": "काहीही विचारा…",
+    "thinking": "विचार करत आहे…"
+  },
+  "auth": {
+    "login": "साइन इन",
+    "logout": "साइन आउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड"
+  }
+}

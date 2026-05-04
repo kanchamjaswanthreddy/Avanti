@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import '../../packages/ui-tokens/tokens/colors.css';
+@import '../../packages/ui-tokens/tokens/typography.css';
+@import '../../packages/ui-tokens/tokens/spacing.css';
+@import '../../packages/ui-tokens/tokens/motion.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--surface-page);
+  margin: 0;
+}

@@ -1,0 +1,78 @@
+{
+  "common": {
+    "loading": "ஏற்றுகிறது…",
+    "error": "ஏதோ தவறு நடந்தது",
+    "save": "சேமி",
+    "cancel": "ரத்துசெய்",
+    "edit": "திருத்து",
+    "delete": "நீக்கு",
+    "confirm": "உறுதிப்படுத்து",
+    "back": "திரும்பு",
+    "next": "அடுத்து",
+    "search": "தேடு",
+    "filter": "வடிகட்டு",
+    "all": "அனைத்தும்",
+    "none": "எதுவும் இல்லை",
+    "yes": "ஆம்",
+    "no": "இல்லை",
+    "viewAll": "அனைத்தும் பார்",
+    "noData": "தரவு கிடைக்கவில்லை"
+  },
+  "nav": {
+    "dashboard": "டாஷ்போர்டு",
+    "students": "மாணவர்கள்",
+    "classes": "வகுப்புகள்",
+    "attendance": "வருகை",
+    "fees": "கட்டணங்கள்",
+    "timetable": "நேரஅட்டவணை",
+    "canvas": "கேன்வாஸ்",
+    "settings": "அமைப்புகள்"
+  },
+  "dashboard": {
+    "title": "டாஷ்போர்டு",
+    "totalStudents": "மொத்த மாணவர்கள்",
+    "todayAttendance": "இன்றைய வருகை",
+    "outstandingFees": "நிலுவை கட்டணங்கள்",
+    "classes": "வகுப்புகள்"
+  },
+  "students": {
+    "title": "மாணவர்கள்",
+    "addStudent": "மாணவர் சேர்",
+    "name": "பெயர்",
+    "class": "வகுப்பு",
+    "noStudents": "மாணவர்கள் கிடைக்கவில்லை."
+  },
+  "attendance": {
+    "title": "வருகை",
+    "saveAttendance": "வருகை சேமி",
+    "saved": "வருகை வெற்றிகரமாக சேமிக்கப்பட்டது.",
+    "status": {
+      "PRESENT": "உள்ளனர்",
+      "ABSENT": "இல்லை",
+      "HALF_DAY": "அரை நாள்",
+      "LATE": "தாமதம்"
+    }
+  },
+  "fees": {
+    "title": "கட்டணங்கள்",
+    "totalDue": "மொத்த நிலுவை",
+    "collected": "வசூலிக்கப்பட்டது",
+    "outstanding": "நிலுவை",
+    "defaulters": "நிலுவையாளர்கள்"
+  },
+  "timetable": {
+    "title": "நேரஅட்டவணை",
+    "period": "பீரியட்"
+  },
+  "ai": {
+    "title": "விதியுத் AI",
+    "placeholder": "எதையும் கேளுங்கள்…",
+    "thinking": "யோசிக்கிறது…"
+  },
+  "auth": {
+    "login": "உள்நுழை",
+    "logout": "வெளியேறு",
+    "email": "மின்னஞ்சல்",
+    "password": "கடவுச்சொல்"
+  }
+}
