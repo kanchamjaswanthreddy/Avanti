@@ -9,7 +9,7 @@ import type { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 import type pg from 'pg';
 import type { Redis } from 'ioredis';
-import type { PermissionSet } from '@avanti/types';
+import type { JWTPayload, PermissionSet } from '@avanti/types';
 import { getControlPlanePool, getSchoolPool } from '../lib/db.js';
 import { getSchoolRedis } from '../lib/redis.js';
 
@@ -43,9 +43,21 @@ const tenantPlugin: FastifyPluginAsync = async (fastify) => {
     const needsTenant = TENANT_PREFIXES.some(prefix => req.url.startsWith(prefix));
     if (!needsTenant) return;
 
+    // Verify JWT and populate req.session if not already set by a route-level preHandler
     if (!req.session) {
-      await reply.code(401).send({ error: 'UNAUTHORIZED', message: 'Authentication required.' });
-      return;
+      try {
+        const payload = await (req as unknown as { jwtVerify: <T>() => Promise<T> }).jwtVerify<JWTPayload>();
+        req.session = {
+          userId:   payload.sub,
+          schoolId: payload.schoolId,
+          role:     payload.role,
+          email:    '',
+          name:     '',
+        };
+      } catch {
+        await reply.code(401).send({ error: 'UNAUTHORIZED', message: 'Authentication required.' });
+        return;
+      }
     }
 
     const controlDB = getControlPlanePool();

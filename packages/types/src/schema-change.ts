@@ -5,7 +5,7 @@
 // It sends a typed SchemaChangeDescriptor describing the intent.
 // The SME generates and executes the SQL from this descriptor.
 
-import type { FieldType } from './meta-schema.js';
+import type { FieldType } from './meta-schema';
 
 export type ChangeAction =
   | 'ADD_TABLE'

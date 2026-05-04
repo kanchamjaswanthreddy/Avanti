@@ -1,10 +1,10 @@
 // @avanti/i18n — Shared i18n configuration and message loader
 
-export * from './config.js';
+export * from './config';
 
 // ── Message loader (server-side / build-time) ──────────────────────────────
 
-import type { Locale } from './config.js';
+import type { Locale } from './config';
 
 export type Messages = Record<string, unknown>;
 

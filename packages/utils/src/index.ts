@@ -1,3 +1,3 @@
-export * from './validation.js';
-export * from './currency.js';
-export * from './date.js';
+export * from './validation';
+export * from './currency';
+export * from './date';

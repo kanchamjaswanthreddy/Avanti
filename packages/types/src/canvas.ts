@@ -7,8 +7,8 @@
 //   WORKFLOW — Workflow automation canvas (Phase 3+)
 // State managed with Zustand. Graph rendering via @xyflow/react.
 
-import type { PermissionSet } from './permissions.js';
-import type { FieldType } from './meta-schema.js';
+import type { PermissionSet } from './permissions';
+import type { FieldType } from './meta-schema';
 
 export type NodeType =
   | 'TABLE'             // Schema canvas: a database table

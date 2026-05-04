@@ -18,7 +18,7 @@ import type {
   SetNullablePayload, AddEnumValuePayload,
 } from '@avanti/types';
 import { validateIdentifier, sanitizeIdentifier } from '@avanti/utils';
-import { readMetaSchema, writeMetaSchema } from './meta.js';
+import { readMetaSchema, writeMetaSchema } from './meta';
 
 // ── Identifier safety ─────────────────────────────────────────────────────────
 

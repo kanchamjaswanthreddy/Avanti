@@ -41,6 +41,6 @@ CREATE INDEX _ai_msg_conv_created_idx ON _ai_messages (conversation_id, created_
 
 CREATE TRIGGER trg__ai_conversations_updated_at
   BEFORE UPDATE ON _ai_conversations
-  FOR EACH ROW EXECUTE FUNCTION _vidyut_update_updated_at();
+  FOR EACH ROW EXECUTE FUNCTION _avanti_update_updated_at();
 
 COMMIT;

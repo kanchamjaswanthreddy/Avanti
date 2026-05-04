@@ -1,4 +1,4 @@
--- Vidyut School Core Schema — Migration 001
+-- Avanti School Core Schema — Migration 001
 -- Runs against each school's isolated PostgreSQL database (NOT the control plane).
 -- Called by: tools/provision-local.ts during school setup.
 --
@@ -239,7 +239,7 @@ CREATE TABLE _meta_schema (
 );
 
 -- ── Auto-update updated_at ────────────────────────────────────────────────────
-CREATE OR REPLACE FUNCTION _vidyut_update_updated_at()
+CREATE OR REPLACE FUNCTION _avanti_update_updated_at()
 RETURNS TRIGGER LANGUAGE plpgsql AS $$
 BEGIN
   NEW.updated_at = now();
@@ -256,7 +256,7 @@ BEGIN
     'staff', 'attendance', 'fee_structures', 'timetable_slots'
   ]) LOOP
     EXECUTE format(
-      'CREATE TRIGGER trg_%I_updated_at BEFORE UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION _vidyut_update_updated_at()',
+      'CREATE TRIGGER trg_%I_updated_at BEFORE UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION _avanti_update_updated_at()',
       tbl, tbl
     );
   END LOOP;

@@ -3,13 +3,13 @@
 // Each school uses the same queue names — school_id is a field in job data.
 
 import { Queue, type ConnectionOptions } from 'bullmq';
-import { QUEUE_NAMES } from './types.js';
+import { QUEUE_NAMES } from './types';
 import type {
   ReportJobData,
   NotificationJobData,
   SchemaMigrationJobData,
   FeeReminderJobData,
-} from './types.js';
+} from './types';
 
 // ── Default job options ───────────────────────────────────────────────────────
 

@@ -1,7 +1,7 @@
 // Avanti Control Plane Types
 // From TechnicalArchitecture_v1.docx Section 2.2 & 3.1
 
-import type { PermissionSet } from './permissions.js';
+import type { PermissionSet } from './permissions';
 
 export type SchoolStatus = 'PROVISIONING' | 'ACTIVE' | 'SUSPENDED' | 'CANCELLED';
 

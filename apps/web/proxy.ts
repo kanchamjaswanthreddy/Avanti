@@ -1,20 +1,14 @@
-// Avanti — Next.js Proxy (locale routing)
-// Handles locale detection and routing via next-intl.
-// Constants are inlined here (proxy runs in Edge — can't import TS packages).
+// Avanti — Next.js Proxy (request interceptor)
+// Currently a pass-through. Locale routing via next-intl will be
+// wired in Phase 4 when multi-language support is added to pages.
 
-import createMiddleware from 'next-intl/middleware';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const LOCALES    = ['en', 'hi', 'te', 'ta', 'kn', 'mr'] as const;
-const DEFAULT_LOCALE = 'en' as const;
-
-export default createMiddleware({
-  locales:       LOCALES,
-  defaultLocale: DEFAULT_LOCALE,
-  // Locale prefix is 'as-needed' — English URLs have no /en prefix
-  localePrefix:  'as-needed',
-});
+export default function proxy(_req: NextRequest) {
+  return NextResponse.next();
+}
 
 export const config = {
-  // Match all routes except API, _next static, and public assets
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };
