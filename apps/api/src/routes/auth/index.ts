@@ -1,4 +1,4 @@
-// Vidyut API — Auth Routes (Full Implementation)
+// Avanti API — Auth Routes (Full Implementation)
 // From TechnicalArchitecture_v1.docx Section 7.1
 //
 // POST /api/v1/auth/login          — email + password → access token + refresh cookie
@@ -10,7 +10,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import nodemailer from 'nodemailer';
 import * as authService from '../../services/auth.service.js';
-import type { JWTPayload } from '@vidyut/types';
+import type { JWTPayload } from '@avanti/types';
 
 // Trigger @fastify/cookie type augmentation
 import type {} from '@fastify/cookie';
@@ -227,15 +227,15 @@ export const authRoutes: FastifyPluginAsync = async (fastify) => {
         try {
           const mailer = getMailer();
           await mailer.sendMail({
-            from:    process.env['SMTP_FROM'] ?? 'noreply@vidyut.local',
+            from:    process.env['SMTP_FROM'] ?? 'noreply@avanti.local',
             to:      req.body.email,
-            subject: 'Reset your Vidyut password',
+            subject: 'Reset your Avanti password',
             html: `
               <p>Hi ${result.userName},</p>
               <p>We received a request to reset your password. Click the link below to proceed:</p>
               <p><a href="${resetUrl}">${resetUrl}</a></p>
               <p>This link expires in 1 hour. If you didn't request this, you can safely ignore this email.</p>
-              <p>— Vidyut Team</p>
+              <p>— Avanti Team</p>
             `,
           });
         } catch (emailErr) {

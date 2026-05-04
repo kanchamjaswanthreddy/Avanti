@@ -1,4 +1,4 @@
-// Vidyut API — Timetable Routes
+// Avanti API — Timetable Routes
 // GET    /api/v1/school/timetable/:classId              — weekly timetable for class
 // POST   /api/v1/school/timetable/slots                 — create slot
 // PATCH  /api/v1/school/timetable/slots/:id             — update slot

@@ -1,8 +1,8 @@
-// Vidyut Chat Store — Zustand v5
+// Avanti Chat Store — Zustand v5
 // Manages AI chat panel state: messages, streaming cursor, voice recording.
 
 import { create } from 'zustand';
-import type { AIMessage, AIToolCall } from '@vidyut/types';
+import type { AIMessage, AIToolCall } from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 {
-  "name": "vidyut",
+  "name": "avanti",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -15,7 +15,7 @@
     "db:reset": "docker compose down -v && docker compose up -d postgres redis && sleep 3 && npx tsx tools/migrate.ts --env=local --reset",
     "migrate": "npx tsx tools/migrate.ts",
     "deploy:production": "turbo build && npx tsx tools/migrate.ts --env=production",
-    "deploy:api": "turbo build --filter=@vidyut/api",
+    "deploy:api": "turbo build --filter=@avanti/api",
     "provision:local": "npx tsx tools/provision-local.ts"
   },
   "devDependencies": {

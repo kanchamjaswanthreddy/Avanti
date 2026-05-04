@@ -1,4 +1,4 @@
-// Vidyut API — Health Check Route
+// Avanti API — Health Check Route
 // GET /api/v1/health
 
 import type { FastifyPluginAsync } from 'fastify';

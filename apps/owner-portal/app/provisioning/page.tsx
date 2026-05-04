@@ -1,4 +1,4 @@
-// Vidyut Owner Portal — Provisioning Monitor
+// Avanti Owner Portal — Provisioning Monitor
 // Active provisioning jobs, recent completions, pipeline logs.
 
 export default function ProvisioningPage() {

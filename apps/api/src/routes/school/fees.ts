@@ -1,4 +1,4 @@
-// Vidyut API — Fees Routes
+// Avanti API — Fees Routes
 // POST   /api/v1/school/fees/structures               — create fee structure
 // GET    /api/v1/school/fees/structures               — list fee structures
 // GET    /api/v1/school/fees/structures/:id           — get single structure

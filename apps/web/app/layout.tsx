@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Vidyut — School Management Platform',
+  title: 'Avanti — School Management Platform',
   description: 'India-first AI-native school management operating system.',
 };
 

@@ -4,12 +4,12 @@ import path from 'path';
 const config: NextConfig = {
   // Turbopack enabled via --turbopack flag in dev script
   transpilePackages: [
-    '@vidyut/types',
-    '@vidyut/ui-tokens',
-    '@vidyut/utils',
-    '@vidyut/api-client',
-    '@vidyut/schema-engine',
-    '@vidyut/i18n',
+    '@avanti/types',
+    '@avanti/ui-tokens',
+    '@avanti/utils',
+    '@avanti/api-client',
+    '@avanti/schema-engine',
+    '@avanti/i18n',
   ],
 
   experimental: {

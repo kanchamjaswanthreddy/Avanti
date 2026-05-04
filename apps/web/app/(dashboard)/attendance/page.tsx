@@ -1,11 +1,11 @@
 'use client';
 
-// Vidyut — Attendance Marking Page
+// Avanti — Attendance Marking Page
 // Class + date selector → student roster → P/A/H/L toggle → save.
 
 import { useState, useEffect, useCallback } from 'react';
 import { getApiClient } from '../../../lib/api';
-import type { SchoolClass, AttendanceRosterEntry, AttendanceStatus } from '@vidyut/types';
+import type { SchoolClass, AttendanceRosterEntry, AttendanceStatus } from '@avanti/types';
 
 const STATUS_OPTIONS: { value: AttendanceStatus; label: string; color: string; bg: string }[] = [
   { value: 'PRESENT',  label: 'P', color: '#15803d', bg: '#dcfce7' },

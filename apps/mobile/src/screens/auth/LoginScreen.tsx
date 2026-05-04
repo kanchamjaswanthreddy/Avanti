@@ -1,4 +1,4 @@
-// Vidyut Mobile — Login Screen
+// Avanti Mobile — Login Screen
 // Email + password + school ID. Biometric shortcut if enrolled.
 
 import React, { useState } from 'react';
@@ -13,7 +13,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { VidyutApiClient } from '@vidyut/api-client';
+import { AvantiApiClient } from '@avanti/api-client';
 import { useAuthStore } from '../../store/authStore';
 import { Colors, Typography, Spacing, Radius } from '../../constants/colors';
 
@@ -35,7 +35,7 @@ export function LoginScreen() {
     setLoading(true);
     setError(null);
     try {
-      const client = new VidyutApiClient({ baseUrl: API_BASE });
+      const client = new AvantiApiClient({ baseUrl: API_BASE });
       const result = await client.login(email.trim(), password, schoolId.trim());
       setAuth(result.accessToken, {
         userId:   result.user.id,
@@ -62,7 +62,7 @@ export function LoginScreen() {
       >
         {/* Logo */}
         <View style={styles.logoSection}>
-          <Text style={styles.logoText}>Vidyut</Text>
+          <Text style={styles.logoText}>Avanti</Text>
           <Text style={styles.logoSub}>School Management</Text>
         </View>
 

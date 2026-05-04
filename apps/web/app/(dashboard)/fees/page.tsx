@@ -1,12 +1,12 @@
 'use client';
 
-// Vidyut — Fees Dashboard Page
+// Avanti — Fees Dashboard Page
 // Fee structures list → select one → show collection stats + defaulters.
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { getApiClient } from '../../../lib/api';
-import type { FeeStructure, FeeDefaulter } from '@vidyut/types';
+import type { FeeStructure, FeeDefaulter } from '@avanti/types';
 
 function rupee(n: number) {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);

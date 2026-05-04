@@ -1,4 +1,4 @@
-// Vidyut API — Attendance Routes
+// Avanti API — Attendance Routes
 // POST /api/v1/school/attendance/mark                    — bulk mark by class+date
 // GET  /api/v1/school/attendance/:classId/:date          — get class attendance with roster
 // GET  /api/v1/school/attendance/student/:studentId      — student history (date range)

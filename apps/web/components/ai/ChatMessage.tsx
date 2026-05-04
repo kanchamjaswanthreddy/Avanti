@@ -1,10 +1,10 @@
 'use client';
 
-// Vidyut — AI Chat Message Components
+// Avanti — AI Chat Message Components
 // ChatMessage: rendered message bubble (user or assistant).
 // StreamingMessage: in-progress assistant reply with blinking cursor.
 
-import type { AIMessage } from '@vidyut/types';
+import type { AIMessage } from '@avanti/types';
 
 // ── ChatMessage ───────────────────────────────────────────────────────────────
 
@@ -124,10 +124,10 @@ export function StreamingMessage({ text, activeTools }: StreamingMessageProps) {
             background:    'var(--color-brand-500, #1A3C6B)',
             marginLeft:    '2px',
             verticalAlign: 'text-bottom',
-            animation:     'vidyut-blink 1s step-end infinite',
+            animation:     'avanti-blink 1s step-end infinite',
           }}
         />
-        <style>{`@keyframes vidyut-blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+        <style>{`@keyframes avanti-blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
       </div>
     </div>
   );

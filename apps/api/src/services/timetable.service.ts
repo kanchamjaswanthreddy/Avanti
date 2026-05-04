@@ -1,4 +1,4 @@
-// Vidyut API — Timetable Service
+// Avanti API — Timetable Service
 // Weekly timetable management with clash detection.
 // Clashes: same class + same period, or same teacher + same time + same day.
 // DB-level enforcement via UNIQUE indexes; service catches constraint violations.

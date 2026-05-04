@@ -1,4 +1,4 @@
-// Vidyut Canvas Store — Zustand v5
+// Avanti Canvas Store — Zustand v5
 // Owns the canonical canvas state: nodes, base meta-schema, undo/redo history.
 // React Flow reads from this store and syncs position changes back via syncPositions().
 //
@@ -16,8 +16,8 @@ import type {
   TableNodeData,
   TableFieldDraft,
   FieldType,
-} from '@vidyut/types';
-import { computeDiff, metaSchemaToNodes } from '@vidyut/schema-engine/diff';
+} from '@avanti/types';
+import { computeDiff, metaSchemaToNodes } from '@avanti/schema-engine/diff';
 import { getApiClient } from '../lib/api';
 
 // ── Types ─────────────────────────────────────────────────────────────────────

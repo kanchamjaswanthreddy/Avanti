@@ -1,4 +1,4 @@
-// Vidyut Date Utilities — Indian date formatting
+// Avanti Date Utilities — Indian date formatting
 // Indian format: DD/MM/YYYY (not MM/DD/YYYY)
 // Calendar: Gregorian (schools use Gregorian, not Vikram Samvat)
 

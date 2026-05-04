@@ -1,5 +1,5 @@
 {
-  "name": "@vidyut/web",
+  "name": "@avanti/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,12 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@vidyut/api-client": "*",
-    "@vidyut/i18n": "*",
-    "@vidyut/schema-engine": "*",
-    "@vidyut/types": "*",
-    "@vidyut/ui-tokens": "*",
-    "@vidyut/utils": "*",
+    "@avanti/api-client": "*",
+    "@avanti/i18n": "*",
+    "@avanti/schema-engine": "*",
+    "@avanti/types": "*",
+    "@avanti/ui-tokens": "*",
+    "@avanti/utils": "*",
     "@xyflow/react": "^12.3.0",
     "autoprefixer": "^10.5.0",
     "motion": "^12.0.0",

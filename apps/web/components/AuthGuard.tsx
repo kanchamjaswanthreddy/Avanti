@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — Auth Guard
+// Avanti — Auth Guard
 // Client component that redirects unauthenticated users to /login.
 // Used in the dashboard layout.
 

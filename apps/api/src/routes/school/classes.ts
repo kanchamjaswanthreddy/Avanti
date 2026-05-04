@@ -1,4 +1,4 @@
-// Vidyut API — Classes Routes
+// Avanti API — Classes Routes
 // GET    /api/v1/school/classes          — list classes (filterable by academicYear)
 // POST   /api/v1/school/classes          — create class
 // GET    /api/v1/school/classes/:id      — get single class

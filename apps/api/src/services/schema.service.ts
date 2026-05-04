@@ -1,10 +1,10 @@
-// Vidyut API — Schema Service
+// Avanti API — Schema Service
 // Thin wrapper around the schema-engine package for use in API routes.
 // Adds permission checks and request validation.
 
 import type pg from 'pg';
-import type { SchemaChangeDescriptor, SchemaChangeResult, MetaSchema } from '@vidyut/types';
-import { executeSchemaChanges, getMetaSchema } from '@vidyut/schema-engine';
+import type { SchemaChangeDescriptor, SchemaChangeResult, MetaSchema } from '@avanti/types';
+import { executeSchemaChanges, getMetaSchema } from '@avanti/schema-engine';
 
 export { getMetaSchema };
 

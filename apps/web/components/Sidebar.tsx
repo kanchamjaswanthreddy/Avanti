@@ -1,4 +1,4 @@
-// Vidyut — Sidebar Navigation
+// Avanti — Sidebar Navigation
 // Fixed left sidebar with nav links.
 // Active link detected via usePathname (requires 'use client').
 // Phase 2 school module links are present but lead to Phase 2 pages.
@@ -105,7 +105,7 @@ export function Sidebar() {
               letterSpacing: '-0.02em',
             }}
           >
-            Vidyut
+            Avanti
           </div>
           <div
             style={{

@@ -1,4 +1,4 @@
-// Vidyut API — School Module Routes
+// Avanti API — School Module Routes
 // All school data routes — tenant-scoped, auth required.
 // Registers all Phase 2 modules under /api/v1/school/*
 

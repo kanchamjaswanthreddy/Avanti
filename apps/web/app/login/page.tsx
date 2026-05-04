@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — Login Page
+// Avanti — Login Page
 // School ID + email + password → POST /api/v1/auth/login → store token + redirect.
 
 import { useState, useEffect, type FormEvent } from 'react';
@@ -97,7 +97,7 @@ export default function LoginPage() {
               margin:     0,
             }}
           >
-            Vidyut
+            Avanti
           </h1>
           <p
             style={{

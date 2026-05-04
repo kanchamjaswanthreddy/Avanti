@@ -1,4 +1,4 @@
-# Vidyut — Local Development Stack
+# Avanti — Local Development Stack
 # Mirrors production: PostgreSQL 16 + Redis 7 + Mailpit (email catcher)
 #
 # Start:  npm run dev  (runs docker compose up -d automatically)
@@ -11,7 +11,7 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB: vidyut_control
+      POSTGRES_DB: avanti_control
       POSTGRES_USER: dev_user
       POSTGRES_PASSWORD: dev_password
     ports:
@@ -19,7 +19,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U dev_user -d vidyut_control']
+      test: ['CMD-SHELL', 'pg_isready -U dev_user -d avanti_control']
       interval: 5s
       timeout: 5s
       retries: 5

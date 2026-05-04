@@ -1,4 +1,4 @@
-// Vidyut Schema Migration Engine — Change Descriptor Types
+// Avanti Schema Migration Engine — Change Descriptor Types
 // From TechnicalArchitecture_v1.docx Section 4.2
 //
 // The canvas never sends raw SQL to the SME.

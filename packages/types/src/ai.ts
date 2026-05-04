@@ -1,4 +1,4 @@
-// Vidyut AI Agent Types
+// Avanti AI Agent Types
 // From TechnicalArchitecture_v1.docx Section 8
 
 // ── Conversation & message storage ───────────────────────────────────────────

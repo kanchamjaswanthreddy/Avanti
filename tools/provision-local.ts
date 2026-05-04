@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Vidyut — Local School Provisioning Tool
+// Avanti — Local School Provisioning Tool
 //
 // Creates a new school in the local control plane and provisions its isolated DB.
 // For local development only — production provisioning happens via the API.
@@ -13,7 +13,7 @@
 //
 // What it does:
 //   1. Inserts a school record into the control plane DB
-//   2. Creates an isolated school DB (vidyut_school_<id_prefix>)
+//   2. Creates an isolated school DB (avanti_school_<id_prefix>)
 //   3. Runs school migrations (packages/migrations/school/)
 //   4. Seeds: default roles + admin user
 //   5. Prints credentials and school ID
@@ -90,7 +90,7 @@ function generateUUID(): string {
 // ── School DB name from school UUID ──────────────────────────────────────────
 
 function schoolDbName(schoolId: string): string {
-  return `vidyut_school_${schoolId.replace(/-/g, '_').slice(0, 20)}`;
+  return `avanti_school_${schoolId.replace(/-/g, '_').slice(0, 20)}`;
 }
 
 // ── Load school migrations ─────────────────────────────────────────────────────
@@ -167,7 +167,7 @@ async function main() {
   const args = parseArgs();
 
   const controlDbUrl = process.env['CONTROL_PLANE_DB_URL']
-    ?? 'postgresql://dev_user:dev_password@localhost:5432/vidyut_control';
+    ?? 'postgresql://dev_user:dev_password@localhost:5432/avanti_control';
 
   console.log('\n[provision] Starting local school provisioning...');
   console.log(`  Name:  ${args.name}`);

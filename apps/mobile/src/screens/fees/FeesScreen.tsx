@@ -1,4 +1,4 @@
-// Vidyut Mobile — Fees Screen
+// Avanti Mobile — Fees Screen
 
 import React, { useState, useEffect, useCallback } from 'react';
 import {
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getApiClient } from '../../lib/api';
-import type { FeeStructure, FeeDefaulter } from '@vidyut/types';
+import type { FeeStructure, FeeDefaulter } from '@avanti/types';
 
 // helpers
 function fullName(d: FeeDefaulter): string { return `${d.firstName} ${d.lastName}`; }

@@ -1,4 +1,4 @@
-// Vidyut — Dashboard Home
+// Avanti — Dashboard Home
 // School-wide KPI cards + quick-action shortcuts.
 
 import Link from 'next/link';
@@ -281,7 +281,7 @@ export default function DashboardPage() {
             }
           />
           <QuickAction
-            label="Ask Vidyut AI"
+            label="Ask Avanti AI"
             description="Get insights about your school"
             href="#"
             icon={

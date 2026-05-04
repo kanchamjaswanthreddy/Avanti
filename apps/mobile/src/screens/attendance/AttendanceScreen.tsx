@@ -1,4 +1,4 @@
-// Vidyut Mobile — Attendance Screen
+// Avanti Mobile — Attendance Screen
 
 import React, { useState, useEffect, useCallback } from 'react';
 import {
@@ -18,7 +18,7 @@ import type {
   AttendanceStatus,
   AttendanceRecord,
   ClassAttendanceResponse,
-} from '@vidyut/types';
+} from '@avanti/types';
 import { Colors, Typography, Spacing, Radius } from '../../constants/colors';
 
 const STATUS_CONFIG: Record<AttendanceStatus, { label: string; bg: string; text: string }> = {

@@ -1,4 +1,4 @@
-// Vidyut Mobile — Main Bottom Tab Navigator
+// Avanti Mobile — Main Bottom Tab Navigator
 
 import React from 'react';
 import { Text } from 'react-native';

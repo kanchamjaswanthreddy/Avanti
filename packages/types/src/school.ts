@@ -1,4 +1,4 @@
-// Vidyut — School Module Types
+// Avanti — School Module Types
 // Students, Classes, Attendance, Fees, Timetable
 
 // ── Classes ───────────────────────────────────────────────────────────────────

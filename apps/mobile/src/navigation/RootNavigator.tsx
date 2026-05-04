@@ -1,4 +1,4 @@
-// Vidyut Mobile — Root Navigator
+// Avanti Mobile — Root Navigator
 // Switches between Auth and Main stacks based on session state.
 
 import React from 'react';

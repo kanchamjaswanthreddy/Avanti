@@ -1,8 +1,8 @@
-// Vidyut Owner Portal — Schools List
+// Avanti Owner Portal — Schools List
 // All provisioned schools with status, tier, and quick actions.
 
 import Link from 'next/link';
-import type { SchoolStatus, Tier } from '@vidyut/types';
+import type { SchoolStatus, Tier } from '@avanti/types';
 
 // ── Status badge ──────────────────────────────────────────────────────────────
 

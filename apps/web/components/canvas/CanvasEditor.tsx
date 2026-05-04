@@ -1,4 +1,4 @@
-// Vidyut — Canvas Editor
+// Avanti — Canvas Editor
 // React Flow–based schema canvas. Completely reskinned — no default RF UI visible.
 // Uses Zustand canvasStore as the single source of truth for schema state.
 // React Flow manages rendering + drag interaction; positions sync back on drag stop.
@@ -32,12 +32,12 @@ import { AnimatePresence } from 'motion/react';
 import { useCanvasStore } from '../../store/canvasStore';
 import { useAuthStore } from '../../store/authStore';
 import { getApiClient } from '../../lib/api';
-import { computeDiff } from '@vidyut/schema-engine/diff';
+import { computeDiff } from '@avanti/schema-engine/diff';
 import { TableNode } from './nodes/TableNode';
 import { Toolbar } from './Toolbar';
 import { SidePanel } from './SidePanel';
 import { ChangePreviewModal } from './ChangePreviewModal';
-import type { CanvasLayout, MetaSchema, SchemaChangeDescriptor } from '@vidyut/types';
+import type { CanvasLayout, MetaSchema, SchemaChangeDescriptor } from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -48,13 +48,13 @@ interface CanvasEditorProps {
 
 // Use React Flow's base Node type (data: Record<string,unknown>)
 // Our custom data is accessed via casting inside node components
-type VidyutNode = RFNode;
+type AvantiNode = RFNode;
 
 // ── Converters ────────────────────────────────────────────────────────────────
 
-import type { CanvasNode } from '@vidyut/types';
+import type { CanvasNode } from '@avanti/types';
 
-function toRFNode(n: CanvasNode): VidyutNode {
+function toRFNode(n: CanvasNode): AvantiNode {
   return {
     id:       n.id,
     type:     n.type,
@@ -132,7 +132,7 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
   }, [canvasId, loadCanvas]);
 
   // ── React Flow state ──────────────────────────────────────────────────────
-  const [rfNodes, setRfNodes] = useState<VidyutNode[]>([]);
+  const [rfNodes, setRfNodes] = useState<AvantiNode[]>([]);
   const [rfEdges, setRfEdges] = useState<RFEdge[]>([]);
 
   // Keep a ref to current store nodes for save-time diff (avoids stale closure)

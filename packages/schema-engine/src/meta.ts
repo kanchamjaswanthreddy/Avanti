@@ -1,4 +1,4 @@
-// Vidyut SME — Meta-Schema Read/Write
+// Avanti SME — Meta-Schema Read/Write
 // From TechnicalArchitecture_v1.docx Section 4.1
 //
 // The meta-schema is the single source of truth for a school's data model.
@@ -6,7 +6,7 @@
 // FOR UPDATE locking prevents concurrent schema changes on the same school.
 
 import type pg from 'pg';
-import type { MetaSchema } from '@vidyut/types';
+import type { MetaSchema } from '@avanti/types';
 
 export async function readMetaSchema(
   client: pg.PoolClient,

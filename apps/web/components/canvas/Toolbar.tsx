@@ -1,4 +1,4 @@
-// Vidyut — Canvas Toolbar
+// Avanti — Canvas Toolbar
 // Fixed top bar: Save, Undo, Redo, Add Table, version indicator.
 // Communicates state via canvasStore.
 

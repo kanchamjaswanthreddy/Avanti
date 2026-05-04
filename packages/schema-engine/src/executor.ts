@@ -1,4 +1,4 @@
-// Vidyut Schema Migration Engine — DDL Executor
+// Avanti Schema Migration Engine — DDL Executor
 // From TechnicalArchitecture_v1.docx Section 4.2
 //
 // Receives a typed SchemaChangeDescriptor[], applies the DDL in a single
@@ -16,8 +16,8 @@ import type {
   AddTablePayload, AddColumnPayload, DropColumnPayload, DropTablePayload,
   RenameColumnPayload, ChangeTypePayload, SetDefaultPayload,
   SetNullablePayload, AddEnumValuePayload,
-} from '@vidyut/types';
-import { validateIdentifier, sanitizeIdentifier } from '@vidyut/utils';
+} from '@avanti/types';
+import { validateIdentifier, sanitizeIdentifier } from '@avanti/utils';
 import { readMetaSchema, writeMetaSchema } from './meta.js';
 
 // ── Identifier safety ─────────────────────────────────────────────────────────
@@ -142,7 +142,7 @@ async function applyChange(
       await client.query(`
         CREATE TRIGGER trg_${tableName}_updated_at
           BEFORE UPDATE ON ${tableName}
-          FOR EACH ROW EXECUTE FUNCTION _vidyut_update_updated_at()
+          FOR EACH ROW EXECUTE FUNCTION _avanti_update_updated_at()
       `);
 
       // Add to meta-schema

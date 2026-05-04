@@ -1,4 +1,4 @@
-// Vidyut Mobile — Navigation Type Definitions
+// Avanti Mobile — Navigation Type Definitions
 
 export type AuthStackParamList = {
   Login: undefined;

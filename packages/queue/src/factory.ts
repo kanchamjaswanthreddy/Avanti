@@ -1,4 +1,4 @@
-// Vidyut Queue — Queue Factory
+// Avanti Queue — Queue Factory
 // Returns typed BullMQ Queue instances given a Redis connection.
 // Each school uses the same queue names — school_id is a field in job data.
 

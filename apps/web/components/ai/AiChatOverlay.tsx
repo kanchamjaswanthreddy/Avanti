@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — AI Chat Overlay
+// Avanti — AI Chat Overlay
 // Renders the floating "✦" trigger button (bottom-right) + the ChatPanel.
 // This is the only AI-related import needed in the dashboard layout.
 

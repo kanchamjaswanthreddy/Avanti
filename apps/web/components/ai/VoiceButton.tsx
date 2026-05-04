@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — Voice Input Button
+// Avanti — Voice Input Button
 // Records audio via MediaRecorder → sends to transcribe endpoint.
 // Animated pulse ring while recording. Disabled during AI streaming.
 

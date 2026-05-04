@@ -1,5 +1,5 @@
-// Vidyut API Client
-// Typed fetch client for all Vidyut API endpoints.
+// Avanti API Client
+// Typed fetch client for all Avanti API endpoints.
 // Works in browser (client components) and Node.js (server components).
 // Token management: caller provides token; this client is stateless.
 
@@ -22,7 +22,7 @@ import type {
   FeeDefaulter,
   WeeklyTimetable,
   TimetableSlot,
-} from '@vidyut/types';
+} from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -37,20 +37,20 @@ export interface ApiError {
   message: string;
 }
 
-export class VidyutApiError extends Error {
+export class AvantiApiError extends Error {
   constructor(
     public readonly status: number,
     public readonly code: string,
     message: string
   ) {
     super(message);
-    this.name = 'VidyutApiError';
+    this.name = 'AvantiApiError';
   }
 }
 
 // ── Client ────────────────────────────────────────────────────────────────────
 
-export class VidyutApiClient {
+export class AvantiApiClient {
   private baseUrl: string;
   private token: string | undefined;
 
@@ -92,7 +92,7 @@ export class VidyutApiClient {
 
     if (!response.ok) {
       const err = data as ApiError;
-      throw new VidyutApiError(
+      throw new AvantiApiError(
         response.status,
         err.error ?? 'UNKNOWN',
         err.message ?? `HTTP ${response.status}`
@@ -350,7 +350,7 @@ export class VidyutApiClient {
 
     if (!response.ok) {
       const err = await response.json() as ApiError;
-      throw new VidyutApiError(
+      throw new AvantiApiError(
         response.status,
         err.error   ?? 'UNKNOWN',
         err.message ?? `HTTP ${response.status}`

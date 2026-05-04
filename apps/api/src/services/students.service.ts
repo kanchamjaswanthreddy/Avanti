@@ -1,4 +1,4 @@
-// Vidyut API — Students Service
+// Avanti API — Students Service
 // Full CRUD with soft delete, pagination, full-text search, class filtering.
 // All queries scoped by school_id. Soft deletes only — is_deleted flag.
 

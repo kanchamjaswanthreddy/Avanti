@@ -1,10 +1,10 @@
-// Vidyut API — Notification Worker
+// Avanti API — Notification Worker
 // Processes NotificationJobData from the 'notifications' BullMQ queue.
 // Dispatches push (FCM/APNs), SMS (Twilio), WhatsApp (Gupshup), email (SMTP).
 
 import { Worker, type Job } from 'bullmq';
-import { QUEUE_NAMES, redisConnectionFromEnv } from '@vidyut/queue';
-import type { NotificationJobData, NotificationChannel } from '@vidyut/queue';
+import { QUEUE_NAMES, redisConnectionFromEnv } from '@avanti/queue';
+import type { NotificationJobData, NotificationChannel } from '@avanti/queue';
 
 // ── Channel senders ───────────────────────────────────────────────────────────
 

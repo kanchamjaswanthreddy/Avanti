@@ -1,4 +1,4 @@
-// Vidyut AI Incident Intelligence System — Types
+// Avanti AI Incident Intelligence System — Types
 // From OperationsDesignReference_v1.docx Section 6
 //
 // The AIIS monitors all school deployments, detects issues, and delivers

@@ -1,4 +1,4 @@
-// Vidyut API — Schema Routes (Full Implementation)
+// Avanti API — Schema Routes (Full Implementation)
 // GET  /api/v1/schema/meta    — returns the school's full meta-schema
 // POST /api/v1/schema/change  — applies SchemaChangeDescriptor[] via SME
 // GET  /api/v1/schema/log     — paginated schema change audit log
@@ -6,7 +6,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import { authenticate, checkPermission } from '../../plugins/auth.js';
 import * as schemaService from '../../services/schema.service.js';
-import type { SchemaChangeDescriptor } from '@vidyut/types';
+import type { SchemaChangeDescriptor } from '@avanti/types';
 
 export const schemaRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.addHook('preHandler', authenticate);

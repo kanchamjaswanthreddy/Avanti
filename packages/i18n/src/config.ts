@@ -1,4 +1,4 @@
-// Vidyut i18n — Locale configuration
+// Avanti i18n — Locale configuration
 // Supported locales: English, Hindi, Telugu, Tamil, Kannada, Marathi
 
 export const LOCALES = ['en', 'hi', 'te', 'ta', 'kn', 'mr'] as const;

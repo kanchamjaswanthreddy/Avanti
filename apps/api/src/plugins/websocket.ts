@@ -1,4 +1,4 @@
-// Vidyut API — WebSocket Plugin (Socket.io)
+// Avanti API — WebSocket Plugin (Socket.io)
 // From TechnicalArchitecture_v1.docx Section 9.1
 //
 // Per-school namespaces: /ws/school-{schoolId}
@@ -13,7 +13,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { Server } from 'socket.io';
-import type { JWTPayload } from '@vidyut/types';
+import type { JWTPayload } from '@avanti/types';
 
 // Type augmentation — fastify instance now has .io
 declare module 'fastify' {

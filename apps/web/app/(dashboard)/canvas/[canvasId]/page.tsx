@@ -1,4 +1,4 @@
-// Vidyut — Canvas Editor Page
+// Avanti — Canvas Editor Page
 // Server component: validates canvasId, renders CanvasEditor client component.
 // Data fetching happens in the client (requires auth token in memory).
 
@@ -21,7 +21,7 @@ const CANVAS_TITLES: Record<string, string> = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { canvasId } = await params;
   const title = CANVAS_TITLES[canvasId] ?? 'Canvas';
-  return { title: `${title} — Vidyut` };
+  return { title: `${title} — Avanti` };
 }
 
 export default async function CanvasEditorPage({ params }: PageProps) {

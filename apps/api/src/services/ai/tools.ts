@@ -1,4 +1,4 @@
-// Vidyut AI — Tool Definitions & Executors
+// Avanti AI — Tool Definitions & Executors
 // From TechnicalArchitecture_v1.docx Section 8
 //
 // 7 tools, each permission-checked before execution.
@@ -7,12 +7,12 @@
 
 import type pg from 'pg';
 import type Anthropic from '@anthropic-ai/sdk';
-import { getMetaSchema } from '@vidyut/schema-engine';
-import { validateIdentifier, sanitizeIdentifier } from '@vidyut/utils';
-import type { PermissionSet, MetaSchema, MetaTable, SchemaChangeDescriptor } from '@vidyut/types';
-import { executeSchemaChanges } from '@vidyut/schema-engine';
-import { getReportsQueue, redisConnectionFromEnv } from '@vidyut/queue';
-import type { ReportType } from '@vidyut/queue';
+import { getMetaSchema } from '@avanti/schema-engine';
+import { validateIdentifier, sanitizeIdentifier } from '@avanti/utils';
+import type { PermissionSet, MetaSchema, MetaTable, SchemaChangeDescriptor } from '@avanti/types';
+import { executeSchemaChanges } from '@avanti/schema-engine';
+import { getReportsQueue, redisConnectionFromEnv } from '@avanti/queue';
+import type { ReportType } from '@avanti/queue';
 
 // ── Tool execution context ────────────────────────────────────────────────────
 

@@ -1,4 +1,4 @@
-// Vidyut AI — Agent Runner (streaming + tool use loop)
+// Avanti AI — Agent Runner (streaming + tool use loop)
 // From TechnicalArchitecture_v1.docx Section 8
 //
 // Orchestrates the Claude API call loop:
@@ -11,7 +11,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import type pg from 'pg';
-import type { AIChatEvent, AIMessage } from '@vidyut/types';
+import type { AIChatEvent, AIMessage } from '@avanti/types';
 import { buildSystemPrompt, type AgentContext } from './context.js';
 import { TOOL_DEFINITIONS, executeTool, type ToolContext } from './tools.js';
 

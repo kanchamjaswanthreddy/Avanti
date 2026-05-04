@@ -1,4 +1,4 @@
-// Vidyut API — AI Routes
+// Avanti API — AI Routes
 // POST /api/v1/ai/chat           — SSE streaming chat (Claude + tool use)
 // POST /api/v1/ai/voice/transcribe — audio → transcript (Sarvam AI + Whisper)
 // POST /api/v1/ai/voice/speak    — text → base64 WAV (Sarvam TTS)
@@ -7,7 +7,7 @@ import type { FastifyPluginAsync } from 'fastify';
 import { authenticate } from '../../plugins/auth.js';
 import { runAgent } from '../../services/ai/agent.js';
 import { transcribeAudio, synthesizeSpeech } from '../../services/ai/voice.js';
-import type { AIChatEvent } from '@vidyut/types';
+import type { AIChatEvent } from '@avanti/types';
 
 export const aiRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.addHook('preHandler', authenticate);

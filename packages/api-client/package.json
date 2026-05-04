@@ -1,5 +1,5 @@
 {
-  "name": "@vidyut/api-client",
+  "name": "@avanti/api-client",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vidyut/types": "*"
+    "@avanti/types": "*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

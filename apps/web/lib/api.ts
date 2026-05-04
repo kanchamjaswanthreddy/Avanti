@@ -1,17 +1,17 @@
-// Vidyut Web — API Client Singleton
-// Single VidyutApiClient instance per browser session.
+// Avanti Web — API Client Singleton
+// Single AvantiApiClient instance per browser session.
 // Access token held in memory only; the httpOnly refresh token cookie
 // handles silent token renewal without touching localStorage.
 
-import { VidyutApiClient } from '@vidyut/api-client';
+import { AvantiApiClient } from '@avanti/api-client';
 
 const API_URL = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:4000';
 
-let _client: VidyutApiClient | null = null;
+let _client: AvantiApiClient | null = null;
 
-export function getApiClient(): VidyutApiClient {
+export function getApiClient(): AvantiApiClient {
   if (!_client) {
-    _client = new VidyutApiClient({ baseUrl: API_URL });
+    _client = new AvantiApiClient({ baseUrl: API_URL });
   }
   return _client;
 }

@@ -1,4 +1,4 @@
-// Vidyut API — Auth Service
+// Avanti API — Auth Service
 // From TechnicalArchitecture_v1.docx Section 7.1
 //
 // Handles: login, refresh token rotation, logout, forgot/reset password.

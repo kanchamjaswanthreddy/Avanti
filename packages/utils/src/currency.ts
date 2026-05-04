@@ -1,4 +1,4 @@
-// Vidyut Currency Utilities — Indian Rupee formatting
+// Avanti Currency Utilities — Indian Rupee formatting
 // Uses Intl.NumberFormat with locale 'en-IN' for proper lakh/crore notation.
 
 /**

@@ -1,4 +1,4 @@
-// Vidyut AI — Context Builder
+// Avanti AI — Context Builder
 // From TechnicalArchitecture_v1.docx Section 8
 //
 // Assembles the system prompt for each request:
@@ -8,8 +8,8 @@
 // it can query or modify, filtered to what the user is allowed to see.
 
 import type pg from 'pg';
-import { getMetaSchema } from '@vidyut/schema-engine';
-import type { PermissionSet, MetaSchema } from '@vidyut/types';
+import { getMetaSchema } from '@avanti/schema-engine';
+import type { PermissionSet, MetaSchema } from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -40,7 +40,7 @@ export async function buildSystemPrompt(ctx: AgentContext): Promise<string> {
     ? `\n## Current Screen\nThe user is currently on the **${screenLabel(ctx.screen)}** page.\n`
     : '';
 
-  return `You are Vidyut AI, an intelligent assistant for ${schoolInfo.name}.
+  return `You are Avanti AI, an intelligent assistant for ${schoolInfo.name}.
 
 ## Context
 - User: ${userInfo.name} (${ctx.role.replace(/_/g, ' ')})

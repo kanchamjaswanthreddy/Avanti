@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const config: NextConfig = {
-  transpilePackages: ['@vidyut/types', '@vidyut/ui-tokens', '@vidyut/utils'],
+  transpilePackages: ['@avanti/types', '@avanti/ui-tokens', '@avanti/utils'],
   experimental: {},
 };
 

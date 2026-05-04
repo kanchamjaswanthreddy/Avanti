@@ -1,4 +1,4 @@
-// Vidyut API — Authentication Plugin
+// Avanti API — Authentication Plugin
 // From TechnicalArchitecture_v1.docx Section 7.1
 //
 // JWT: RS256 preferred in production. HS256 acceptable for local dev.
@@ -7,7 +7,7 @@
 
 import type { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
-import type { JWTPayload, SessionUser } from '@vidyut/types';
+import type { JWTPayload, SessionUser } from '@avanti/types';
 
 declare module 'fastify' {
   interface FastifyRequest {

@@ -1,4 +1,4 @@
-// Vidyut API — Fees Service
+// Avanti API — Fees Service
 // Fee structure builder, payment recording, receipt generation, defaulters list.
 // All monetary values in paise (₹1 = 100 paise) — use currency utils for display.
 

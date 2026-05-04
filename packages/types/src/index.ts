@@ -1,4 +1,4 @@
-// @vidyut/types — Shared TypeScript interfaces
+// @avanti/types — Shared TypeScript interfaces
 // Imported by apps/api, apps/web, apps/owner-portal, apps/mobile
 
 export * from './permissions.js';

@@ -1,4 +1,4 @@
-// Vidyut Mobile — Design Tokens
+// Avanti Mobile — Design Tokens
 // Mirrors the CSS variables in packages/ui-tokens for React Native StyleSheet use.
 
 export const Colors = {

@@ -1,4 +1,4 @@
-// Vidyut Mobile — Student List Screen
+// Avanti Mobile — Student List Screen
 
 import React, { useState, useEffect, useCallback } from 'react';
 import {
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getApiClient } from '../../lib/api';
-import type { Student } from '@vidyut/types';
+import type { Student } from '@avanti/types';
 import { Colors, Typography, Spacing, Radius } from '../../constants/colors';
 
 function StudentRow({

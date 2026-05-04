@@ -1,4 +1,4 @@
-// Vidyut Mobile — Student Detail Screen
+// Avanti Mobile — Student Detail Screen
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getApiClient } from '../../lib/api';
-import type { Student } from '@vidyut/types';
+import type { Student } from '@avanti/types';
 import { Colors, Typography, Spacing, Radius } from '../../constants/colors';
 
 function Row({ label, value }: { label: string; value?: string | null }) {

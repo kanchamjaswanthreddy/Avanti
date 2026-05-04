@@ -1,4 +1,4 @@
-// Vidyut Web — Auth Store (Zustand)
+// Avanti Web — Auth Store (Zustand)
 // Holds access token + session user in memory.
 // Access token set via setAuthToken() on login; cleared on logout.
 

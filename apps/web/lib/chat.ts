@@ -1,8 +1,8 @@
-// Vidyut — SSE Chat Stream Helper
+// Avanti — SSE Chat Stream Helper
 // Opens a fetch stream to the AI chat endpoint and parses Server-Sent Events.
 // Calls typed callbacks for each event — caller manages store state.
 
-import type { AIChatEvent } from '@vidyut/types';
+import type { AIChatEvent } from '@avanti/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

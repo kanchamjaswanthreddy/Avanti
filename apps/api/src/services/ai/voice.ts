@@ -1,10 +1,10 @@
-// Vidyut AI — Voice Pipeline
+// Avanti AI — Voice Pipeline
 // From TechnicalArchitecture_v1.docx Section 8
 //
 // STT:  Sarvam AI saarika:v2 (Indian languages) → Whisper fallback if empty transcript
 // TTS:  Sarvam AI bulbul:v1 → returns base64-encoded WAV
 
-import type { VoiceTranscribeResult } from '@vidyut/types';
+import type { VoiceTranscribeResult } from '@avanti/types';
 
 const SARVAM_BASE_URL  = 'https://api.sarvam.ai';
 const SARVAM_API_KEY   = () => process.env['SARVAM_API_KEY'] ?? '';

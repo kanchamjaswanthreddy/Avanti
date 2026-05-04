@@ -45,7 +45,7 @@
     "viewTimetableDesc": "Weekly class schedule",
     "schemaBuilder": "Schema Builder",
     "schemaBuilderDesc": "Customise your school's data model",
-    "askAI": "Ask Vidyut AI",
+    "askAI": "Ask Avanti AI",
     "askAIDesc": "Get insights about your school"
   },
   "students": {
@@ -115,7 +115,7 @@
     }
   },
   "ai": {
-    "title": "Vidyut AI",
+    "title": "Avanti AI",
     "placeholder": "Ask anything…",
     "thinking": "Thinking…",
     "empty": "Ask me anything about your school",

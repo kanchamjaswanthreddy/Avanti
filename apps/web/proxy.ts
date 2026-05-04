@@ -1,4 +1,4 @@
-// Vidyut — Next.js Proxy (locale routing)
+// Avanti — Next.js Proxy (locale routing)
 // Handles locale detection and routing via next-intl.
 // Constants are inlined here (proxy runs in Edge — can't import TS packages).
 

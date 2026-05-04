@@ -1,4 +1,4 @@
-// Vidyut Owner Portal — Overview
+// Avanti Owner Portal — Overview
 // Platform-wide health summary.
 
 import Link from 'next/link';
@@ -51,7 +51,7 @@ export default function PortalHome() {
           Platform Overview
         </h1>
         <p style={{ fontSize: '13px', color: '#94a3b8', margin: '4px 0 0' }}>
-          Live status — Vidyut School Management Platform
+          Live status — Avanti School Management Platform
         </p>
       </div>
 

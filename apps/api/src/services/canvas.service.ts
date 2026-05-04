@@ -1,9 +1,9 @@
-// Vidyut API — Canvas Service
+// Avanti API — Canvas Service
 // Saves and loads canvas node positions (layout only).
 // Schema data lives in _meta_schema; this stores WHERE nodes are positioned.
 
 import type pg from 'pg';
-import type { CanvasLayout } from '@vidyut/types';
+import type { CanvasLayout } from '@avanti/types';
 
 export async function loadCanvasLayout(
   db: pg.Pool,

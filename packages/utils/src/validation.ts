@@ -1,4 +1,4 @@
-// Vidyut Input Validation Utilities
+// Avanti Input Validation Utilities
 // From TechnicalArchitecture_v1.docx Section 4.4 (SME Validation Rules)
 // CRITICAL: All user-supplied column/table names MUST pass these checks
 // before being used in ANY SQL statement.
@@ -28,7 +28,7 @@ const PG_RESERVED_WORDS = new Set([
   'window', 'with', 'xmlexists', 'xmlparse', 'xmlroot', 'xmlserialize',
 ]);
 
-// Vidyut internal table names that must never be used by school admins
+// Avanti internal table names that must never be used by school admins
 const VIDYUT_RESERVED = new Set([
   '_meta_schema', '_migration_log', '_migration_history',
   'users', 'roles', 'role_permissions', 'schools',
@@ -47,7 +47,7 @@ export type ValidationResult =
  * 2. Must not start with a digit or underscore
  * 3. Max 63 characters (PostgreSQL identifier limit)
  * 4. Must not be a PostgreSQL reserved word
- * 5. Must not be a Vidyut internal table name
+ * 5. Must not be a Avanti internal table name
  */
 export function validateIdentifier(name: string): ValidationResult {
   if (!name || name.length === 0) {

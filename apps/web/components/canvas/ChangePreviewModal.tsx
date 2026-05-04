@@ -1,4 +1,4 @@
-// Vidyut — Change Preview Modal
+// Avanti — Change Preview Modal
 // Shows pending SchemaChangeDescriptor[] in human-readable form before saving.
 // Shown only when there are schema changes (not for position-only saves).
 
@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import type { SchemaChangeDescriptor, MetaSchema } from '@vidyut/types';
+import type { SchemaChangeDescriptor, MetaSchema } from '@avanti/types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

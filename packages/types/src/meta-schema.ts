@@ -1,4 +1,4 @@
-// Vidyut Meta-Schema Registry Types
+// Avanti Meta-Schema Registry Types
 // From TechnicalArchitecture_v1.docx Section 4.1
 //
 // The meta-schema is stored in _meta_schema table in each school's DB.

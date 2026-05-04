@@ -1,8 +1,8 @@
-// Vidyut Owner Portal — School Detail
+// Avanti Owner Portal — School Detail
 // Provision status, infrastructure details, subscription, usage metrics.
 
 import Link from 'next/link';
-import type { ProvisionState } from '@vidyut/types';
+import type { ProvisionState } from '@avanti/types';
 
 // ── Provision timeline ────────────────────────────────────────────────────────
 
@@ -85,8 +85,8 @@ export default function SchoolDetailPage({ params }: { params: { id: string } })
     status:          'ACTIVE' as const,
     provisionState:  'ACTIVE' as ProvisionState,
     region:          'asia-south1',
-    dbInstanceId:    'vidyut-dps-hyderabad-pg16',
-    storageBucket:   'vidyut-dps-hyderabad-assets',
+    dbInstanceId:    'avanti-dps-hyderabad-pg16',
+    storageBucket:   'avanti-dps-hyderabad-assets',
     studentCount:    1247,
     apiCallsToday:   3_841,
     provisionedAt:   '2025-08-15T10:30:00Z',

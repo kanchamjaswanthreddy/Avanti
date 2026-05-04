@@ -1,4 +1,4 @@
-// Vidyut Mobile — Root App Component
+// Avanti Mobile — Root App Component
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';

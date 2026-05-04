@@ -1,4 +1,4 @@
-// Vidyut API — Server entry point
+// Avanti API — Server entry point
 
 import { buildApp } from './app.js';
 import { startReportWorker } from './workers/report.worker.js';
@@ -18,7 +18,7 @@ async function main() {
     try {
       // Pool used by report worker (tenant-scoped queries run inside the worker)
       const workerDb = new pg.Pool({
-        connectionString: process.env['DATABASE_URL'] ?? 'postgresql://vidyut:vidyut@localhost:5432/vidyut_dev',
+        connectionString: process.env['DATABASE_URL'] ?? 'postgresql://avanti:avanti@localhost:5432/avanti_dev',
         max: 5,
       });
       startReportWorker(workerDb);
@@ -34,7 +34,7 @@ async function main() {
   // ── HTTP Server ────────────────────────────────────────────────────────────
   try {
     await app.listen({ port: PORT, host: HOST });
-    console.log(`\n  Vidyut API running at http://localhost:${PORT}`);
+    console.log(`\n  Avanti API running at http://localhost:${PORT}`);
     console.log(`  Health:  http://localhost:${PORT}/api/v1/health\n`);
   } catch (err) {
     app.log.error(err);

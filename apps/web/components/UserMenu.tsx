@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — User Menu (Top Bar)
+// Avanti — User Menu (Top Bar)
 // Shows logged-in user's name + role, with a logout action.
 
 import { useRouter } from 'next/navigation';

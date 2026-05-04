@@ -1,4 +1,4 @@
-// Vidyut Mobile — Auth Navigation Stack
+// Avanti Mobile — Auth Navigation Stack
 
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

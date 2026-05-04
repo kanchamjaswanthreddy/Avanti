@@ -1,4 +1,4 @@
-// @vidyut/i18n — Shared i18n configuration and message loader
+// @avanti/i18n — Shared i18n configuration and message loader
 
 export * from './config.js';
 

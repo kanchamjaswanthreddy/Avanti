@@ -1,4 +1,4 @@
-// Vidyut Authentication Types
+// Avanti Authentication Types
 // From TechnicalArchitecture_v1.docx Section 7.1
 //
 // Access tokens: 15 minutes

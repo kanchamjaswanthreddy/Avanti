@@ -1,4 +1,4 @@
-// @vidyut/api-client — Typed fetch client for the Vidyut API
+// @avanti/api-client — Typed fetch client for the Avanti API
 
-export { VidyutApiClient, VidyutApiError } from './client.js';
+export { AvantiApiClient, AvantiApiError } from './client.js';
 export type { ApiClientOptions, ApiError } from './client.js';

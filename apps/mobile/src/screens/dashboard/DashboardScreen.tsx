@@ -1,4 +1,4 @@
-// Vidyut Mobile — Dashboard Screen
+// Avanti Mobile — Dashboard Screen
 // Quick KPI cards + navigation shortcuts.
 
 import React from 'react';

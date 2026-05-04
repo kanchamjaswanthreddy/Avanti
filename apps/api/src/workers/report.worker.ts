@@ -1,12 +1,12 @@
-// Vidyut API — Report Worker
+// Avanti API — Report Worker
 // Processes ReportJobData from the 'reports' BullMQ queue.
 // Generates JSON/CSV reports and stores result on the job (dev) or
 // uploads to GCP Cloud Storage (prod — wired when STORAGE_BUCKET is set).
 
 import { Worker, type Job } from 'bullmq';
 import type pg from 'pg';
-import { QUEUE_NAMES, redisConnectionFromEnv } from '@vidyut/queue';
-import type { ReportJobData } from '@vidyut/queue';
+import { QUEUE_NAMES, redisConnectionFromEnv } from '@avanti/queue';
+import type { ReportJobData } from '@avanti/queue';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

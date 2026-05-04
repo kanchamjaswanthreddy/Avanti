@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Vidyut Core Migration Runner
+// Avanti Core Migration Runner
 // From OperationsDesignReference_v1.docx Section 1.2
 //
 // Usage:
@@ -149,7 +149,7 @@ async function main(): Promise<void> {
   if (ENV === 'local') {
     // Local: run against the single control plane DB
     const dbUrl = process.env['CONTROL_PLANE_DB_URL'] ??
-      'postgresql://dev_user:dev_password@localhost:5432/vidyut_control';
+      'postgresql://dev_user:dev_password@localhost:5432/avanti_control';
 
     if (RESET) {
       console.log('[migrate] RESET: dropping and recreating database...');

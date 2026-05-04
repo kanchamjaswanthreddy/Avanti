@@ -1,4 +1,4 @@
-// Vidyut — Canvas Side Panel
+// Avanti — Canvas Side Panel
 // Read-only schema browser: shows tables and fields from the saved meta-schema.
 // Shows the server-side truth (baseMetaSchema) + pending node count difference.
 
@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCanvasStore } from '../../store/canvasStore';
-import type { MetaTable } from '@vidyut/types';
+import type { MetaTable } from '@avanti/types';
 
 // ── FieldType badge colours ───────────────────────────────────────────────────
 

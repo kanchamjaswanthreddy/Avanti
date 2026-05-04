@@ -1,4 +1,4 @@
-// Vidyut Queue — Job Type Definitions
+// Avanti Queue — Job Type Definitions
 // All job data shapes used across BullMQ queues.
 
 // ── Queue names ───────────────────────────────────────────────────────────────

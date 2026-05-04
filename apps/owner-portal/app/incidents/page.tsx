@@ -1,4 +1,4 @@
-// Vidyut Owner Portal — Incidents
+// Avanti Owner Portal — Incidents
 
 export default function IncidentsPage() {
   return (

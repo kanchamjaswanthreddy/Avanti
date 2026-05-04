@@ -1,4 +1,4 @@
-// Vidyut SME — Canvas Diff Algorithm
+// Avanti SME — Canvas Diff Algorithm
 // From TechnicalArchitecture_v1.docx Section 5.2
 //
 // Computes SchemaChangeDescriptor[] by diffing the current canvas state
@@ -14,7 +14,7 @@ import type {
   SchemaChangeDescriptor,
   AddTablePayload, AddColumnPayload, DropColumnPayload, DropTablePayload,
   RenameColumnPayload, ChangeTypePayload, SetNullablePayload,
-} from '@vidyut/types';
+} from '@avanti/types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -182,7 +182,7 @@ export function metaSchemaToNodes(
           })),
           isCore:   table.isCore,
           isHidden: table.isHidden,
-        } satisfies import('@vidyut/types').TableNodeData,
+        } satisfies import('@avanti/types').TableNodeData,
       };
     });
 }

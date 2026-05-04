@@ -1,4 +1,4 @@
-// Vidyut — Dashboard Shell Layout
+// Avanti — Dashboard Shell Layout
 // Left sidebar: 240px fixed, with navigation links.
 // Top bar: 56px fixed.
 // Main content: fluid, max-width 1440px.
@@ -10,7 +10,7 @@ import { AuthGuard } from '../../components/AuthGuard';
 import { UserMenu } from '../../components/UserMenu';
 
 export const metadata: Metadata = {
-  title: 'Vidyut',
+  title: 'Avanti',
 };
 
 export default function DashboardLayout({

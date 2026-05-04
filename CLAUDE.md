@@ -1,11 +1,11 @@
-# Vidyut — School Management Platform
+# Avanti — School Management Platform
 
 ## Working Name
-Vidyut (placeholder — rename later via one-click global find-replace)
+Avanti (placeholder — rename later via one-click global find-replace)
 
 ## What This Is
 India-first, AI-native, 100% customizable school management OS.
-Three tiers: school management + Vidyut Learn (education content) + Vidyut Device (tablet deployment).
+Three tiers: school management + Avanti Learn (education content) + Avanti Device (tablet deployment).
 v1.0 ships COMPLETE — no shortcuts, no "add in v2" for core features.
 
 ## All Docs Are In /docs/
@@ -167,7 +167,7 @@ GCP project not set up yet. Local Docker Compose only for now.
 - Phase 2: Core school modules — students, attendance, fees, timetable
 - Phase 3: Canvas builder + Schema Migration Engine
 - Phase 4: AI agent (chat + voice)
-- Phase 5: Mobile app + Vidyut Learn + Vidyut Device
+- Phase 5: Mobile app + Avanti Learn + Avanti Device
 
 ## Current Phase
 **Phase 1** — nothing built yet.

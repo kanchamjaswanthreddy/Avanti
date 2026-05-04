@@ -1,11 +1,11 @@
 'use client';
 
-// Vidyut — Timetable Page
+// Avanti — Timetable Page
 // Class selector → weekly period grid (Mon–Sat × periods).
 
 import { useState, useEffect, useCallback } from 'react';
 import { getApiClient } from '../../../lib/api';
-import type { SchoolClass, TimetableSlot } from '@vidyut/types';
+import type { SchoolClass, TimetableSlot } from '@avanti/types';
 
 const DAYS: { key: number; label: string }[] = [
   { key: 1, label: 'Mon' },

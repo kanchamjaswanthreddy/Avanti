@@ -1,4 +1,4 @@
-// Vidyut API — Canvas Routes
+// Avanti API — Canvas Routes
 // GET  /api/v1/canvas/:canvasId — load canvas layout + meta-schema
 // POST /api/v1/canvas/:canvasId — save layout + apply schema changes atomically
 
@@ -6,7 +6,7 @@ import type { FastifyPluginAsync } from 'fastify';
 import { authenticate, checkPermission } from '../../plugins/auth.js';
 import * as canvasService from '../../services/canvas.service.js';
 import * as schemaService from '../../services/schema.service.js';
-import type { CanvasLayout, SchemaChangeDescriptor } from '@vidyut/types';
+import type { CanvasLayout, SchemaChangeDescriptor } from '@avanti/types';
 
 export const canvasRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.addHook('preHandler', authenticate);

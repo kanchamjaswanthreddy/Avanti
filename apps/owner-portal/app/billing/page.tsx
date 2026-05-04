@@ -1,4 +1,4 @@
-// Vidyut Owner Portal — Billing Overview
+// Avanti Owner Portal — Billing Overview
 
 export default function BillingPage() {
   const TIER_PRICES = {

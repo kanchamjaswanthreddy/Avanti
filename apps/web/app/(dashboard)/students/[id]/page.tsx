@@ -1,13 +1,13 @@
 'use client';
 
-// Vidyut — Student Detail Page
+// Avanti — Student Detail Page
 // Profile, contact info, class assignment, attendance summary.
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getApiClient } from '../../../../lib/api';
-import type { Student } from '@vidyut/types';
+import type { Student } from '@avanti/types';
 
 // ── Info row ──────────────────────────────────────────────────────────────────
 

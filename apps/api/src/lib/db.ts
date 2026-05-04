@@ -1,4 +1,4 @@
-// Vidyut API — Database connection management
+// Avanti API — Database connection management
 // From TechnicalArchitecture_v1.docx Section 1.2
 //
 // In production: credentials come from GCP Secret Manager.
@@ -99,7 +99,7 @@ async function resolveSchoolConnectionString(
   const baseUrl = process.env['CONTROL_PLANE_DB_URL'] ??
     'postgresql://dev_user:dev_password@localhost:5432';
   const url = new URL(baseUrl);
-  url.pathname = `/vidyut_school_${schoolId.replace(/-/g, '_').slice(0, 20)}`;
+  url.pathname = `/avanti_school_${schoolId.replace(/-/g, '_').slice(0, 20)}`;
   return url.toString();
 }
 

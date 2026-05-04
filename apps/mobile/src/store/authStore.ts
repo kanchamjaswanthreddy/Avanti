@@ -1,4 +1,4 @@
-// Vidyut Mobile — Auth Store (Zustand)
+// Avanti Mobile — Auth Store (Zustand)
 // Holds access token + session user. Persists to SecureStore in RN.
 
 import { create } from 'zustand';

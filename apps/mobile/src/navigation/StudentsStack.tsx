@@ -1,4 +1,4 @@
-// Vidyut Mobile — Students Navigation Stack
+// Avanti Mobile — Students Navigation Stack
 
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

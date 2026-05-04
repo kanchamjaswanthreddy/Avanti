@@ -1,4 +1,4 @@
-// Vidyut API — Rate Limiting
+// Avanti API — Rate Limiting
 // From TechnicalArchitecture_v1.docx Section 6.2
 
 import type { FastifyPluginAsync } from 'fastify';

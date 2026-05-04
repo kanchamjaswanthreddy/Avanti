@@ -1,6 +1,6 @@
 'use client';
 
-// Vidyut — AI Chat Panel
+// Avanti — AI Chat Panel
 // 360px slide-in panel from the right side.
 // Connects SSE stream → chatStore; renders message history + streaming cursor.
 
@@ -155,7 +155,7 @@ export function ChatPanel() {
                   ✦
                 </span>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>Vidyut AI</div>
+                  <div style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>Avanti AI</div>
                   {isStreaming && (
                     <div style={{ fontSize: '11px', color: 'var(--color-brand-500)', marginTop: '1px' }}>
                       Thinking…

@@ -1,4 +1,4 @@
-// Vidyut — Table Node (React Flow custom node)
+// Avanti — Table Node (React Flow custom node)
 // Renders a DATABASE TABLE on the schema canvas.
 // Fully custom design — no default React Flow UI visible.
 // Handles: display fields, add field inline, delete field, delete table.
@@ -9,7 +9,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCanvasStore, makeField } from '../../../store/canvasStore';
-import type { TableNodeData, FieldType } from '@vidyut/types';
+import type { TableNodeData, FieldType } from '@avanti/types';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 

@@ -1,4 +1,4 @@
-// Vidyut — Tailwind Config
+// Avanti — Tailwind Config
 // Tailwind is used for TOKENS ONLY — not component utility classes.
 // All actual components are hand-built with CSS modules + CSS custom properties.
 // See packages/ui-tokens/tokens/*.css for the actual token values.

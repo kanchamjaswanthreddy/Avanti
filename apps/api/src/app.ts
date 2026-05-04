@@ -1,4 +1,4 @@
-// Vidyut API — Fastify Application Factory
+// Avanti API — Fastify Application Factory
 // Builds and configures the Fastify instance with all plugins and routes.
 
 import Fastify from 'fastify';
@@ -41,7 +41,7 @@ export async function buildApp() {
 
   // ── Cookies (httpOnly refresh tokens) ────────────────────────────────────────
   await app.register(cookie, {
-    secret: process.env['COOKIE_SECRET'] ?? process.env['JWT_SECRET'] ?? 'vidyut-dev-cookie-secret',
+    secret: process.env['COOKIE_SECRET'] ?? process.env['JWT_SECRET'] ?? 'avanti-dev-cookie-secret',
   });
 
   // ── Plugins (order matters — rate limit → auth → tenant) ────────────────────

@@ -1,12 +1,12 @@
 'use client';
 
-// Vidyut — Students List Page
+// Avanti — Students List Page
 // Paginated table with search + class filter.
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { getApiClient } from '../../../lib/api';
-import type { Student, SchoolClass } from '@vidyut/types';
+import type { Student, SchoolClass } from '@avanti/types';
 
 const PAGE_SIZE = 25;
 

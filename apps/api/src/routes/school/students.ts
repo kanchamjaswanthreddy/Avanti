@@ -1,4 +1,4 @@
-// Vidyut API — Students Routes
+// Avanti API — Students Routes
 // GET    /api/v1/school/students         — list with pagination, search, class filter
 // POST   /api/v1/school/students         — create student
 // GET    /api/v1/school/students/:id     — get single student

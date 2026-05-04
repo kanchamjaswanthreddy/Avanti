@@ -1,4 +1,4 @@
-// Vidyut API — Redis client management
+// Avanti API — Redis client management
 // From TechnicalArchitecture_v1.docx Section 1.2
 
 import { Redis } from 'ioredis';

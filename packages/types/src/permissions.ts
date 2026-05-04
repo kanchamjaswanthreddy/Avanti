@@ -1,4 +1,4 @@
-// Vidyut Permission System
+// Avanti Permission System
 // From TechnicalArchitecture_v1.docx Section 5.4
 // Permissions are stored in role_permissions table and cached in Redis.
 // Enforced at API layer on every Fastify route handler via assertPermission().

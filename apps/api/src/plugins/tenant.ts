@@ -1,4 +1,4 @@
-// Vidyut API — Tenant Routing Middleware
+// Avanti API — Tenant Routing Middleware
 // From TechnicalArchitecture_v1.docx Section 1.2
 //
 // Every request to /api/v1/school/*, /api/v1/schema/*, /api/v1/canvas/*, /api/v1/ai/*
@@ -9,7 +9,7 @@ import type { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 import type pg from 'pg';
 import type { Redis } from 'ioredis';
-import type { PermissionSet } from '@vidyut/types';
+import type { PermissionSet } from '@avanti/types';
 import { getControlPlanePool, getSchoolPool } from '../lib/db.js';
 import { getSchoolRedis } from '../lib/redis.js';
 
@@ -126,9 +126,9 @@ async function loadPermissions(
   const permissionSet: PermissionSet = {
     roleId: result.rows[0]?.role_id ?? '',
     permissions: result.rows.map(r => {
-      const perm: import('@vidyut/types').ResourcePermission = {
+      const perm: import('@avanti/types').ResourcePermission = {
         resource: r.resource,
-        actions: r.actions as import('@vidyut/types').ActionType[],
+        actions: r.actions as import('@avanti/types').ActionType[],
         fieldPermissions: JSON.parse(r.field_permissions ?? '[]') as Array<{ fieldId: string; readable: boolean; writable: boolean }>,
       };
       if (r.row_filter) perm.rowFilter = r.row_filter;

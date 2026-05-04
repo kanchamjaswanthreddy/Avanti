@@ -1,4 +1,4 @@
-// Vidyut Owner Portal — App Shell
+// Avanti Owner Portal — App Shell
 // Fixed sidebar + top bar. Internal-only access.
 
 import type { Metadata } from 'next';
@@ -6,8 +6,8 @@ import Link from 'next/link';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Vidyut — Owner Portal',
-  description: 'Internal operations portal — Vidyut platform team only.',
+  title: 'Avanti — Owner Portal',
+  description: 'Internal operations portal — Avanti platform team only.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Logo */}
             <div style={{ padding: '8px 12px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
               <div style={{ color: '#f59e0b', fontWeight: 800, fontSize: '16px', letterSpacing: '-0.02em' }}>
-                Vidyut
+                Avanti
               </div>
               <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '10px', marginTop: '2px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Owner Portal
@@ -99,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               zIndex: 50,
               justifyContent: 'space-between',
             }}>
-              <span style={{ fontSize: '13px', color: '#94a3b8' }}>Vidyut Operations Console</span>
+              <span style={{ fontSize: '13px', color: '#94a3b8' }}>Avanti Operations Console</span>
               <span style={{ fontSize: '12px', color: '#94a3b8' }}>
                 {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>

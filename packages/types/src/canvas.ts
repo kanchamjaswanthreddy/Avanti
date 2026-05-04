@@ -1,4 +1,4 @@
-// Vidyut Canvas Builder Types
+// Avanti Canvas Builder Types
 // From TechnicalArchitecture_v1.docx Section 5.1
 //
 // Three canvas modes:

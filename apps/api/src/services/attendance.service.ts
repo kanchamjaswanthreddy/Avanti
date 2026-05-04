@@ -1,4 +1,4 @@
-// Vidyut API — Attendance Service
+// Avanti API — Attendance Service
 // Bulk mark by class, view by class/date, student history + percentage.
 // Redis caches today's attendance per class. WebSocket broadcast via Socket.io.
 

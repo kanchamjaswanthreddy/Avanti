@@ -13,9 +13,9 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@vidyut/types":      ["../../packages/types/src/index.ts"],
-      "@vidyut/api-client": ["../../packages/api-client/src/client.ts"],
-      "@vidyut/utils":      ["../../packages/utils/src/index.ts"]
+      "@avanti/types":      ["../../packages/types/src/index.ts"],
+      "@avanti/api-client": ["../../packages/api-client/src/client.ts"],
+      "@avanti/utils":      ["../../packages/utils/src/index.ts"]
     }
   },
   "include": ["src/**/*", "index.js"],

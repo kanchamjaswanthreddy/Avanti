@@ -1,4 +1,4 @@
-// Vidyut API — Classes Service
+// Avanti API — Classes Service
 // CRUD for school classes (e.g. "Class 10 - Section A").
 // All queries scoped by school_id from JWT — never trust request params alone.
 

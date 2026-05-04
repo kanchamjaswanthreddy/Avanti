@@ -1,4 +1,4 @@
-// @vidyut/ui-tokens — JS/TS token exports for React Native
+// @avanti/ui-tokens — JS/TS token exports for React Native
 // Web apps import the CSS files directly from tokens/*.css
 // React Native uses these JS constants with StyleSheet.create()
 
