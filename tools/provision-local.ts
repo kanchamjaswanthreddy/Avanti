@@ -24,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { randomBytes, createHash } from 'node:crypto';
 import pg from 'pg';
 import bcrypt from 'bcryptjs';
+import { buildCoreMetaSchema } from '../packages/schema-engine/src/seed.js';
 
 const { Pool } = pg;
 
@@ -130,6 +131,7 @@ const DEFAULT_ROLES = [
       { resource: 'attendance', actions: ['CREATE', 'READ', 'UPDATE', 'EXPORT'] },
       { resource: 'fees',       actions: ['CREATE', 'READ', 'UPDATE', 'DELETE', 'APPROVE'] },
       { resource: 'timetable',  actions: ['CREATE', 'READ', 'UPDATE', 'DELETE'] },
+      { resource: 'canvas',     actions: ['READ'] },
     ],
   },
   {
@@ -167,7 +169,7 @@ async function main() {
   const args = parseArgs();
 
   const controlDbUrl = process.env['CONTROL_PLANE_DB_URL']
-    ?? 'postgresql://dev_user:dev_password@localhost:5432/avanti_control';
+    ?? 'postgresql://dev_user:dev_password@localhost:5434/avanti_control';
 
   console.log('\n[provision] Starting local school provisioning...');
   console.log(`  Name:  ${args.name}`);
@@ -277,12 +279,14 @@ async function main() {
   const adminUserId = adminResult.rows[0]?.id;
   console.log(`[provision] Created admin user: ${args.adminEmail} (id: ${adminUserId})`);
 
-  // ── Step 7: Seed meta-schema (empty — canvas populates in Phase 3) ─────────
+  // ── Step 7: Seed meta-schema with all 7 core tables ─────────────────────
+  const coreMetaSchema = buildCoreMetaSchema(schoolId);
   await schoolPool.query(
     `INSERT INTO _meta_schema (school_id, schema_json, version)
-     VALUES ($1, '{"tables":[]}', 1)`,
-    [schoolId]
+     VALUES ($1, $2::jsonb, $3)`,
+    [schoolId, JSON.stringify(coreMetaSchema), coreMetaSchema.version]
   );
+  console.log(`[provision] Seeded meta-schema with ${coreMetaSchema.tables.length} core tables.`);
 
   // ── Step 8: Initialize receipt counter ───────────────────────────────────
   const year = new Date().getFullYear().toString();
