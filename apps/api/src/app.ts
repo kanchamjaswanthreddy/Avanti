@@ -8,12 +8,14 @@ import authPlugin from './plugins/auth.js';
 import rateLimitPlugin from './plugins/ratelimit.js';
 import tenantPlugin from './plugins/tenant.js';
 import wsPlugin from './plugins/websocket.js';
-import { healthRoutes } from './routes/health.js';
-import { authRoutes } from './routes/auth/index.js';
-import { schoolRoutes } from './routes/school/index.js';
-import { schemaRoutes } from './routes/schema/index.js';
-import { canvasRoutes } from './routes/canvas/index.js';
-import { aiRoutes } from './routes/ai/index.js';
+import { healthRoutes }   from './routes/health.js';
+import { authRoutes }     from './routes/auth/index.js';
+import { schoolRoutes }   from './routes/school/index.js';
+import { schemaRoutes }   from './routes/schema/index.js';
+import { canvasRoutes }   from './routes/canvas/index.js';
+import { aiRoutes }       from './routes/ai/index.js';
+import { controlRoutes }  from './routes/control/index.js';
+import { billingRoutes }  from './routes/billing/index.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -63,7 +65,9 @@ export async function buildApp() {
   await app.register(schoolRoutes, { prefix: '/api/v1/school' });
   await app.register(schemaRoutes, { prefix: '/api/v1/schema' });
   await app.register(canvasRoutes, { prefix: '/api/v1/canvas' });
-  await app.register(aiRoutes,     { prefix: '/api/v1/ai' });
+  await app.register(aiRoutes,       { prefix: '/api/v1/ai' });
+  await app.register(controlRoutes,  { prefix: '/api/v1/control' });
+  await app.register(billingRoutes,  { prefix: '/api/v1/billing' });
 
   // ── Global 404 ───────────────────────────────────────────────────────────────
   app.setNotFoundHandler((_req, reply) => {

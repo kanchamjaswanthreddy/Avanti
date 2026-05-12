@@ -4,6 +4,7 @@
 
 import { create } from 'zustand';
 import { setAuthToken, clearAuthToken } from '../lib/api';
+import { disconnectSocket } from '../lib/socket';
 
 interface AuthUser {
   id:       string;
@@ -32,6 +33,7 @@ export const useAuthStore = create<AuthStore>(set => ({
 
   clearAuth() {
     clearAuthToken();
+    disconnectSocket();
     set({ accessToken: null, user: null });
   },
 }));

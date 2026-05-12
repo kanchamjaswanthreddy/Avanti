@@ -1,0 +1,125 @@
+# Avanti — CI Pipeline
+# Runs on every pull request and push to main.
+# Jobs: typecheck → lint → build (each scoped via Turbo).
+# All jobs use Turbo's remote cache (Vercel) when TURBO_TOKEN is set.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+  TURBO_TOKEN:  ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM:   ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  # ── Typecheck ──────────────────────────────────────────────────────────────
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck (all workspaces)
+        run: npx turbo typecheck
+
+  # ── Lint ───────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (all workspaces)
+        run: npx turbo lint
+
+  # ── Build ──────────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages and apps
+        run: npx turbo build
+        env:
+          # Suppress Next.js telemetry in CI
+          NEXT_TELEMETRY_DISABLED: '1'
+
+  # ── Tests ──────────────────────────────────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    # Tests require a database — skip if no test DB configured
+    if: ${{ vars.RUN_TESTS == 'true' }}
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB:       avanti_test
+          POSTGRES_USER:     test_user
+          POSTGRES_PASSWORD: test_password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npx turbo test
+        env:
+          CONTROL_PLANE_DB_URL: postgresql://test_user:test_password@localhost:5432/avanti_test
+          REDIS_HOST:           localhost
+          NODE_ENV:             test

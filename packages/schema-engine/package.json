@@ -3,13 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts",
-    "./diff": "./src/diff.ts"
+    ".": {
+      "types":   "./dist/index.d.ts",
+      "import":  "./dist/index.js",
+      "default": "./src/index.ts"
+    },
+    "./diff": {
+      "types":   "./dist/diff.d.ts",
+      "import":  "./dist/diff.js",
+      "default": "./src/diff.ts"
+    }
   },
   "scripts": {
+    "build":     "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -19,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "@types/pg": "^8.11.0",
-    "typescript": "^5.7.0"
+    "@types/pg":   "^8.11.0",
+    "typescript":  "^5.7.0"
   }
 }

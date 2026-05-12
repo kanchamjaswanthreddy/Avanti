@@ -17,6 +17,8 @@ import {
   ReactFlow,
   Background,
   BackgroundVariant,
+  MiniMap,
+  Controls,
   MarkerType,
   applyNodeChanges,
   applyEdgeChanges,
@@ -32,6 +34,8 @@ import { AnimatePresence } from 'motion/react';
 import { useCanvasStore } from '../../store/canvasStore';
 import { useAuthStore } from '../../store/authStore';
 import { getApiClient } from '../../lib/api';
+import { useCanvasSocket } from '../../hooks/useSocket';
+import type { CanvasSavedPayload } from '../../lib/socket';
 import { computeDiff } from '@avanti/schema-engine/diff';
 import { TableNode } from './nodes/TableNode';
 import { Toolbar } from './Toolbar';
@@ -69,12 +73,12 @@ function buildEdgeStyle(label?: string): Partial<RFEdge> {
   return {
     type:      'smoothstep',
     ...(label ? { label } : {}),
-    markerEnd: { type: MarkerType.ArrowClosed, color: '#93c5fd', width: 16, height: 16 },
-    style:     { stroke: '#93c5fd', strokeWidth: 1.5 },
-    labelStyle:      { fontSize: 9, fill: '#9ca3af', fontFamily: 'JetBrains Mono, ui-monospace, monospace' },
-    labelBgStyle:    { fill: '#ffffff', fillOpacity: 0.92 },
-    labelBgPadding:  [4, 2] as [number, number],
-    labelBgBorderRadius: 3,
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#1A3C6B', width: 14, height: 14 },
+    style:     { stroke: '#1A3C6B', strokeWidth: 2, opacity: 0.55 },
+    labelStyle:      { fontSize: 9, fill: '#64748b', fontFamily: 'JetBrains Mono, ui-monospace, monospace', fontWeight: 500 },
+    labelBgStyle:    { fill: '#ffffff', fillOpacity: 0.95 },
+    labelBgPadding:  [5, 3] as [number, number],
+    labelBgBorderRadius: 4,
   };
 }
 
@@ -146,6 +150,16 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
   // ── Loading state ─────────────────────────────────────────────────────────
   const [loading, setLoading]     = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [colabNotice, setColabNotice] = useState<string | null>(null);
+
+  // Live canvas:saved events from other collaborators
+  const handleCanvasSaved = useCallback((payload: CanvasSavedPayload) => {
+    if (payload.savedBy === userId) return; // ignore own saves
+    setColabNotice(`Canvas updated by another user (v${payload.version}, ${payload.changeCount} change${payload.changeCount !== 1 ? 's' : ''})`);
+    setTimeout(() => setColabNotice(null), 8000);
+  }, [userId]);
+
+  useCanvasSocket(canvasId, handleCanvasSaved);
 
   useEffect(() => {
     let cancelled = false;
@@ -364,6 +378,30 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
         onSaveRequest={handleSaveRequest}
       />
 
+      {/* Collaborator notice */}
+      {colabNotice && (
+        <div style={{
+          display:    'flex',
+          alignItems: 'center',
+          gap:        'var(--space-2)',
+          padding:    'var(--space-2) var(--space-4)',
+          background: '#EFF6FF',
+          borderBottom: '1px solid #BFDBFE',
+          fontSize:   'var(--text-xs)',
+          color:      '#1D4ED8',
+          zIndex:     10,
+        }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#3B82F6', flexShrink: 0 }} />
+          {colabNotice}
+          <button
+            onClick={() => setColabNotice(null)}
+            style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#1D4ED8', fontSize: 'var(--text-xs)' }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Canvas + side panel */}
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
@@ -378,21 +416,43 @@ export function CanvasEditor({ canvasId, title }: CanvasEditorProps) {
             onNodeDragStop={onNodeDragStop}
             nodeTypes={NODE_TYPES}
             fitView
-            fitViewOptions={{ padding: 0.15 }}
-            minZoom={0.25}
+            fitViewOptions={{ padding: 0.18 }}
+            minZoom={0.2}
             maxZoom={2}
             deleteKeyCode="Backspace"
             onNodesDelete={() => { /* guard: deletion handled in TableNode */ }}
-            connectionLineStyle={{ stroke: '#93c5fd', strokeWidth: 1.5 }}
+            connectionLineStyle={{ stroke: '#1A3C6B', strokeWidth: 2, opacity: 0.55 }}
             connectionLineType="smoothstep"
             style={RF_WRAPPER_STYLE}
             proOptions={{ hideAttribution: true }}
           >
             <Background
               variant={BackgroundVariant.Dots}
-              gap={20}
+              gap={22}
               size={1.5}
               color="var(--color-gray-300)"
+            />
+            <MiniMap
+              nodeColor={(n) => {
+                const d = n.data as Record<string, unknown>;
+                return d?.['isCore'] ? '#334155' : '#1A3C6B';
+              }}
+              nodeStrokeWidth={0}
+              maskColor="rgba(255,255,255,0.85)"
+              style={{
+                background: 'var(--surface-card)',
+                border:     '1px solid var(--color-gray-200)',
+                borderRadius: 'var(--radius-md)',
+              }}
+            />
+            <Controls
+              showInteractive={false}
+              style={{
+                background:   'var(--surface-card)',
+                border:       '1px solid var(--color-gray-200)',
+                borderRadius: 'var(--radius-md)',
+                boxShadow:    'var(--shadow-sm)',
+              }}
             />
           </ReactFlow>
 

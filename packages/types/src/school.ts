@@ -148,6 +148,98 @@ export interface FeeDefaulter {
   balance:         number;
 }
 
+// ── Payroll ───────────────────────────────────────────────────────────────────
+
+export type PayrollRunStatus  = 'DRAFT' | 'FINALISED';
+export type PayslipStatus     = 'DRAFT' | 'GENERATED' | 'PAID';
+export type PayslipPaymentMode = 'CASH' | 'BANK_TRANSFER' | 'CHEQUE' | 'UPI';
+
+export interface SalaryAllowance {
+  label:  string;
+  amount: number;  // rupees
+}
+
+export interface PayrollRun {
+  id:           string;
+  schoolId:     string;
+  month:        string;         // 'YYYY-MM'
+  academicYear: string;
+  workingDays:  number;
+  status:       PayrollRunStatus;
+  createdBy:    string;
+  createdAt:    string;
+  finalizedAt:  string | null;
+  finalizedBy:  string | null;
+  // Summary (joined)
+  staffCount?:  number;
+  totalNet?:    number;
+}
+
+export interface Payslip {
+  id:             string;
+  schoolId:       string;
+  payrollRunId:   string;
+  staffId:        string;
+  // Staff info (joined)
+  employeeId?:    string;
+  staffName?:     string;
+  designation?:   string;
+  department?:    string | null;
+  // Inputs
+  basicSalary:    number;
+  paidDays:       number;
+  allowances:     SalaryAllowance[];
+  // Computed
+  earnedBasic:    number;
+  grossSalary:    number;
+  pfEmployee:     number;
+  pfEmployer:     number;
+  esiEmployee:    number;
+  esiEmployer:    number;
+  tds:            number;
+  otherDeductions: number;
+  totalDeductions: number;
+  netSalary:      number;
+  // Payment
+  status:         PayslipStatus;
+  paidAt:         string | null;
+  paymentMode:    PayslipPaymentMode | null;
+  remarks:        string | null;
+  createdAt:      string;
+  updatedAt:      string;
+}
+
+export interface PayrollRunDetail extends PayrollRun {
+  payslips: Payslip[];
+}
+
+// ── Staff ─────────────────────────────────────────────────────────────────────
+
+export interface StaffMember {
+  id:           string;
+  schoolId:     string;
+  userId:       string | null;
+  employeeId:   string;
+  firstName:    string;
+  lastName:     string;
+  email:        string | null;
+  phone:        string | null;
+  designation:  string;
+  department:   string | null;
+  joiningDate:  string | null;  // ISO date "YYYY-MM-DD"
+  basicSalary:  number;
+  createdAt:    string;
+  updatedAt:    string;
+}
+
+export interface StaffListResult {
+  data:       StaffMember[];
+  total:      number;
+  page:       number;
+  limit:      number;
+  totalPages: number;
+}
+
 // ── Timetable ─────────────────────────────────────────────────────────────────
 
 export type DayOfWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -169,4 +261,31 @@ export interface TimetableSlot {
 export interface WeeklyTimetable {
   classId: string;
   slots:   TimetableSlot[];
+}
+
+// ── Reports ───────────────────────────────────────────────────────────────────
+
+export type ReportType =
+  | 'attendance_summary'
+  | 'fee_collection'
+  | 'student_list'
+  | 'class_performance';
+
+export type ReportJobStatus = 'queued' | 'active' | 'completed' | 'failed' | 'unknown';
+
+export interface ReportJobResult {
+  jobId:        string;
+  reportType:   ReportType;
+  status:       ReportJobStatus;
+  progress:     number;           // 0–100
+  generatedAt:  string | null;
+  rowCount:     number;
+  rows:         Record<string, unknown>[];
+  summary:      Record<string, unknown> | null;
+  error:        string | null;
+}
+
+export interface GenerateReportRequest {
+  reportType:  ReportType;
+  params:      Record<string, unknown>;
 }

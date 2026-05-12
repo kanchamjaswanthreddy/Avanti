@@ -1,0 +1,218 @@
+# Avanti — Deploy to GCP Cloud Run
+# Triggered on push to main after CI passes.
+# Builds Docker images → pushes to Artifact Registry → deploys to Cloud Run.
+#
+# Required GitHub secrets:
+#   GCP_PROJECT_ID       — e.g. "avanti-prod-123456"
+#   GCP_SA_KEY           — Service account JSON key (base64 encoded)
+#   GCP_REGION           — e.g. "asia-south1"
+#   GCP_ARTIFACT_REPO    — e.g. "avanti-images"
+#
+# Required GitHub variables (non-secret):
+#   CLOUD_RUN_API_SERVICE     — Cloud Run service name for API
+#   CLOUD_RUN_WEB_SERVICE     — Cloud Run service name for web app
+#   CLOUD_RUN_PORTAL_SERVICE  — Cloud Run service name for owner portal
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false  # never cancel an in-flight deploy
+
+env:
+  NODE_VERSION: '22'
+  TURBO_TOKEN:  ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM:   ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  # ── Shared: authenticate with GCP ─────────────────────────────────────────
+  # Each job authenticates independently (GitHub Actions isolates jobs).
+
+  # ── Deploy API ─────────────────────────────────────────────────────────────
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker \
+            ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push API image
+        env:
+          IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/api:${{ github.sha }}
+        run: |
+          docker build \
+            --file apps/api/Dockerfile \
+            --tag "$IMAGE" \
+            --cache-from "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/api:latest" \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            .
+          docker push "$IMAGE"
+          docker tag "$IMAGE" \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/api:latest"
+          docker push \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/api:latest"
+
+      - name: Deploy API to Cloud Run
+        run: |
+          gcloud run deploy ${{ vars.CLOUD_RUN_API_SERVICE }} \
+            --image "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/api:${{ github.sha }}" \
+            --region  "${{ secrets.GCP_REGION }}" \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 4000 \
+            --min-instances 1 \
+            --max-instances 10 \
+            --memory 512Mi \
+            --cpu 1 \
+            --concurrency 100 \
+            --timeout 60 \
+            --set-env-vars "NODE_ENV=production" \
+            --set-secrets "CONTROL_PLANE_DB_URL=avanti-control-db-url:latest" \
+            --set-secrets "JWT_SECRET=avanti-jwt-secret:latest" \
+            --set-secrets "COOKIE_SECRET=avanti-cookie-secret:latest" \
+            --set-secrets "REDIS_URL=avanti-redis-url:latest" \
+            --set-secrets "INTERNAL_API_KEY=avanti-internal-api-key:latest" \
+            --set-secrets "ANTHROPIC_API_KEY=avanti-anthropic-key:latest" \
+            --quiet
+
+  # ── Deploy Web ─────────────────────────────────────────────────────────────
+  deploy-web:
+    name: Deploy Web App
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker \
+            ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push web image
+        env:
+          IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/web:${{ github.sha }}
+        run: |
+          docker build \
+            --file apps/web/Dockerfile \
+            --tag "$IMAGE" \
+            --cache-from "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/web:latest" \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --build-arg NEXT_TELEMETRY_DISABLED=1 \
+            .
+          docker push "$IMAGE"
+          docker tag "$IMAGE" \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/web:latest"
+          docker push \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/web:latest"
+
+      - name: Deploy web to Cloud Run
+        run: |
+          gcloud run deploy ${{ vars.CLOUD_RUN_WEB_SERVICE }} \
+            --image "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/web:${{ github.sha }}" \
+            --region  "${{ secrets.GCP_REGION }}" \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 3000 \
+            --min-instances 1 \
+            --max-instances 20 \
+            --memory 1Gi \
+            --cpu 1 \
+            --concurrency 200 \
+            --timeout 30 \
+            --set-env-vars "NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1" \
+            --set-secrets "NEXT_PUBLIC_API_URL=avanti-api-url:latest" \
+            --quiet
+
+  # ── Deploy Owner Portal ────────────────────────────────────────────────────
+  deploy-owner-portal:
+    name: Deploy Owner Portal
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker \
+            ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push owner-portal image
+        env:
+          IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/owner-portal:${{ github.sha }}
+        run: |
+          docker build \
+            --file apps/owner-portal/Dockerfile \
+            --tag "$IMAGE" \
+            --cache-from "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/owner-portal:latest" \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --build-arg NEXT_TELEMETRY_DISABLED=1 \
+            .
+          docker push "$IMAGE"
+          docker tag "$IMAGE" \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/owner-portal:latest"
+          docker push \
+            "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/owner-portal:latest"
+
+      - name: Deploy owner portal to Cloud Run
+        run: |
+          gcloud run deploy ${{ vars.CLOUD_RUN_PORTAL_SERVICE }} \
+            --image "${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/owner-portal:${{ github.sha }}" \
+            --region  "${{ secrets.GCP_REGION }}" \
+            --platform managed \
+            --no-allow-unauthenticated \
+            --port 3001 \
+            --min-instances 1 \
+            --max-instances 3 \
+            --memory 512Mi \
+            --cpu 1 \
+            --concurrency 50 \
+            --timeout 30 \
+            --set-env-vars "NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1" \
+            --set-secrets "API_URL=avanti-api-url:latest" \
+            --set-secrets "INTERNAL_API_KEY=avanti-internal-api-key:latest" \
+            --quiet

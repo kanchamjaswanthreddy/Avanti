@@ -47,8 +47,10 @@ export default function DashboardLayout({
         <header
           style={{
             height:       'var(--topbar-height)',
-            background:   'var(--surface-card)',
-            borderBottom: '1px solid var(--color-gray-200)',
+            background:   'rgba(255,255,255,0.92)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            borderBottom: '1px solid var(--color-gray-100)',
             display:      'flex',
             alignItems:   'center',
             padding:      '0 var(--space-6)',
@@ -58,7 +60,6 @@ export default function DashboardLayout({
             left:         'var(--sidebar-width)',
             right:        0,
             zIndex:       'var(--z-sticky)',
-            boxShadow:    'var(--shadow-xs)',
           }}
         >
           <div style={{ flex: 1 }} />

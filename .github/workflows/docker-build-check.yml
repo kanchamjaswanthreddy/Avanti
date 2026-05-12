@@ -1,0 +1,83 @@
+# Avanti — Docker Build Check
+# Verifies all three Dockerfiles build successfully on PRs.
+# Does NOT push — just validates the build is healthy.
+# Runs in parallel with the main CI workflow.
+
+name: Docker build check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'apps/web/**'
+      - 'apps/owner-portal/**'
+      - 'packages/**'
+      - '**/Dockerfile'
+      - '.dockerignore'
+      - 'package*.json'
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-api:
+    name: Build API image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: false
+          cache-from: type=gha,scope=api
+          cache-to:   type=gha,scope=api,mode=max
+          build-args: |
+            NEXT_TELEMETRY_DISABLED=1
+
+  build-web:
+    name: Build web image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build web (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: false
+          cache-from: type=gha,scope=web
+          cache-to:   type=gha,scope=web,mode=max
+          build-args: |
+            NEXT_TELEMETRY_DISABLED=1
+
+  build-owner-portal:
+    name: Build owner-portal image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build owner-portal (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/owner-portal/Dockerfile
+          push: false
+          cache-from: type=gha,scope=owner-portal
+          cache-to:   type=gha,scope=owner-portal,mode=max
+          build-args: |
+            NEXT_TELEMETRY_DISABLED=1

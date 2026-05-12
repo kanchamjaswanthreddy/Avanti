@@ -2,6 +2,9 @@ import type { NextConfig } from 'next';
 import path from 'path';
 
 const config: NextConfig = {
+  // Standalone output — minimal self-contained server for Docker/Cloud Run
+  output: 'standalone',
+
   // Turbopack enabled via --turbopack flag in dev script
   transpilePackages: [
     '@avanti/types',

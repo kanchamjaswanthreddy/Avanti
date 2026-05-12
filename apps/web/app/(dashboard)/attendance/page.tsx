@@ -3,9 +3,11 @@
 // Avanti — Attendance Marking Page
 // Class + date selector → student roster → P/A/H/L toggle → save.
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getApiClient } from '../../../lib/api';
+import { useAttendanceSocket } from '../../../hooks/useSocket';
 import type { SchoolClass, AttendanceRosterEntry, AttendanceStatus } from '@avanti/types';
+import type { AttendanceMarkedPayload } from '../../../lib/socket';
 
 const STATUS_OPTIONS: { value: AttendanceStatus; label: string; color: string; bg: string }[] = [
   { value: 'PRESENT',  label: 'P', color: '#15803d', bg: '#dcfce7' },
@@ -61,10 +63,12 @@ export default function AttendancePage() {
   const [date,     setDate]      = useState(todayISO());
   const [roster,   setRoster]    = useState<AttendanceRosterEntry[]>([]);
   const [marks,    setMarks]     = useState<Record<string, AttendanceStatus | null>>({});
-  const [loading,  setLoading]   = useState(false);
-  const [saving,   setSaving]    = useState(false);
-  const [saved,    setSaved]     = useState(false);
-  const [error,    setError]     = useState<string | null>(null);
+  const [loading,     setLoading]     = useState(false);
+  const [saving,      setSaving]      = useState(false);
+  const [saved,       setSaved]       = useState(false);
+  const [error,       setError]       = useState<string | null>(null);
+  const [liveUpdate,  setLiveUpdate]  = useState<string | null>(null);
+  const liveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     void getApiClient().getClasses().then(cls => {
@@ -95,6 +99,20 @@ export default function AttendancePage() {
   useEffect(() => {
     if (classId && date) void loadAttendance(classId, date);
   }, [loadAttendance, classId, date]);
+
+  // Live attendance updates from other sessions via Socket.io
+  const handleLiveMarked = useCallback((payload: AttendanceMarkedPayload) => {
+    if (payload.date !== date) return;
+    if (liveTimer.current) clearTimeout(liveTimer.current);
+    setLiveUpdate(`Attendance updated by another device — ${payload.present} present, ${payload.absent} absent`);
+    liveTimer.current = setTimeout(() => setLiveUpdate(null), 8000);
+  }, [date]);
+
+  const handleLiveUpdated = useCallback(() => {
+    // Dashboard-level event — no UI action needed here
+  }, []);
+
+  useAttendanceSocket(classId || null, handleLiveMarked, handleLiveUpdated);
 
   const markAll = (status: AttendanceStatus) => {
     setMarks(prev => {
@@ -259,14 +277,29 @@ export default function AttendancePage() {
 
       {saved && (
         <div style={{
-          background: 'var(--color-success-50, #f0fdf4)',
-          border: '1px solid var(--color-success-200, #bbf7d0)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-3)',
-          fontSize: 'var(--text-sm)',
-          color: 'var(--color-success-700, #15803d)',
+          background: '#F0FDF4', border: '1px solid #BBF7D0',
+          borderRadius: 'var(--radius-md)', padding: 'var(--space-3) var(--space-4)',
+          fontSize: 'var(--text-sm)', color: '#15803D',
         }}>
           Attendance saved successfully.
+        </div>
+      )}
+
+      {liveUpdate && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+          background: '#EFF6FF', border: '1px solid #BFDBFE',
+          borderRadius: 'var(--radius-md)', padding: 'var(--space-3) var(--space-4)',
+          fontSize: 'var(--text-sm)', color: '#1D4ED8',
+        }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3B82F6', flexShrink: 0, animation: 'ws-pulse 1.5s ease-in-out infinite' }} />
+          {liveUpdate}
+          <button
+            onClick={() => { void loadAttendance(classId, date); setLiveUpdate(null); }}
+            style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 600, color: '#1D4ED8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            Refresh
+          </button>
         </div>
       )}
 
@@ -336,6 +369,7 @@ export default function AttendancePage() {
             type="button"
             onClick={() => void handleSave()}
             disabled={saving}
+            className="btn-brand"
             style={{
               padding:      'var(--space-3) var(--space-6)',
               background:   saving ? 'var(--color-gray-400)' : 'var(--color-brand-500)',
@@ -352,6 +386,10 @@ export default function AttendancePage() {
           </button>
         </div>
       )}
+
+      <style>{`
+        @keyframes ws-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+      `}</style>
     </div>
   );
 }

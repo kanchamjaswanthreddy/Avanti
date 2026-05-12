@@ -423,7 +423,7 @@ async function generateClassPerformance(
 
 // ── Main processor ────────────────────────────────────────────────────────────
 
-async function processReport(job: Job<ReportJobData>, db: pg.Pool): Promise<void> {
+async function processReport(job: Job<ReportJobData>, db: pg.Pool): Promise<ReportResult> {
   const { jobId, schoolId, reportType, params } = job.data;
 
   job.log(`Processing ${reportType} report ${jobId} for school ${schoolId}`);
@@ -459,6 +459,7 @@ async function processReport(job: Job<ReportJobData>, db: pg.Pool): Promise<void
   job.log(`Report ${jobId} (${reportType}) generated: ${result.rowCount} rows, ${payload.length} bytes`);
 
   await job.updateProgress(100);
+  return result;
 }
 
 // ── Worker factory ────────────────────────────────────────────────────────────

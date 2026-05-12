@@ -11,6 +11,11 @@ import type {
   VoiceTranscribeResult,
   Student,
   StudentListResult,
+  StaffMember,
+  StaffListResult,
+  PayrollRun,
+  PayrollRunDetail,
+  Payslip,
   SchoolClass,
   ClassAttendanceResponse,
   AttendanceRecord,
@@ -22,7 +27,29 @@ import type {
   FeeDefaulter,
   WeeklyTimetable,
   TimetableSlot,
+  ReportType,
+  ReportJobResult,
 } from '@avanti/types';
+
+// ── Billing local types (not in shared @avanti/types — control-plane only) ────
+
+export interface BillingSubscription {
+  tier:             string;
+  billingCycle:     string;
+  amountPaise:      number;
+  status:           string;
+  currentPeriodEnd: string | null;
+  razorpaySubId:    string | null;
+}
+
+export interface BillingInvoice {
+  id:                string;
+  razorpayInvoiceId: string;
+  amountPaise:       number;
+  status:            string;
+  paidAt:            string | null;
+  createdAt:         string;
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -239,6 +266,116 @@ export class AvantiApiClient {
     await this.request('DELETE', `/api/v1/school/students/${encodeURIComponent(id)}`);
   }
 
+  // ── Staff ────────────────────────────────────────────────────────────────────
+
+  async getStaffMembers(params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    department?: string;
+  }): Promise<StaffListResult> {
+    const sp = new URLSearchParams();
+    if (params?.page)       sp.set('page',       String(params.page));
+    if (params?.limit)      sp.set('limit',      String(params.limit));
+    if (params?.search)     sp.set('search',     params.search);
+    if (params?.department) sp.set('department', params.department);
+    const qs = sp.toString() ? `?${sp.toString()}` : '';
+    return this.request('GET', `/api/v1/school/staff${qs}`);
+  }
+
+  async getStaffDepartments(): Promise<string[]> {
+    return this.request('GET', '/api/v1/school/staff/departments');
+  }
+
+  async getStaffMember(id: string): Promise<StaffMember> {
+    return this.request('GET', `/api/v1/school/staff/${encodeURIComponent(id)}`);
+  }
+
+  async createStaffMember(data: {
+    employeeId:   string;
+    firstName:    string;
+    lastName:     string;
+    designation:  string;
+    email?:       string;
+    phone?:       string;
+    department?:  string;
+    joiningDate?: string;
+    basicSalary?: number;
+    userId?:      string;
+  }): Promise<StaffMember> {
+    return this.request('POST', '/api/v1/school/staff', data);
+  }
+
+  async updateStaffMember(id: string, data: Partial<{
+    employeeId:  string;
+    firstName:   string;
+    lastName:    string;
+    designation: string;
+    email:       string;
+    phone:       string;
+    department:  string;
+    joiningDate: string;
+    basicSalary: number;
+    userId:      string;
+  }>): Promise<StaffMember> {
+    return this.request('PATCH', `/api/v1/school/staff/${encodeURIComponent(id)}`, data);
+  }
+
+  async deleteStaffMember(id: string): Promise<void> {
+    await this.request('DELETE', `/api/v1/school/staff/${encodeURIComponent(id)}`);
+  }
+
+  // ── Payroll ───────────────────────────────────────────────────────────────────
+
+  async listPayrollRuns(): Promise<PayrollRun[]> {
+    return this.request('GET', '/api/v1/school/payroll/runs');
+  }
+
+  async getPayrollRun(runId: string): Promise<PayrollRunDetail> {
+    return this.request('GET', `/api/v1/school/payroll/runs/${encodeURIComponent(runId)}`);
+  }
+
+  async createPayrollRun(data: {
+    month:        string;
+    academicYear: string;
+    workingDays?: number;
+  }): Promise<PayrollRunDetail> {
+    return this.request('POST', '/api/v1/school/payroll/runs', data);
+  }
+
+  async finalizePayrollRun(runId: string): Promise<PayrollRun> {
+    return this.request('POST', `/api/v1/school/payroll/runs/${encodeURIComponent(runId)}/finalize`);
+  }
+
+  async updatePayslip(id: string, data: {
+    paidDays?:        number;
+    allowances?:      Array<{ label: string; amount: number }>;
+    otherDeductions?: number;
+    remarks?:         string;
+  }): Promise<Payslip> {
+    return this.request('PATCH', `/api/v1/school/payroll/payslips/${encodeURIComponent(id)}`, data);
+  }
+
+  async markPayslipPaid(id: string, data: {
+    paidAt:      string;
+    paymentMode: 'CASH' | 'BANK_TRANSFER' | 'CHEQUE' | 'UPI';
+  }): Promise<Payslip> {
+    return this.request('POST', `/api/v1/school/payroll/payslips/${encodeURIComponent(id)}/pay`, data);
+  }
+
+  // ── Reports ───────────────────────────────────────────────────────────────────
+
+  async generateReport(data: {
+    reportType: ReportType;
+    params:     Record<string, unknown>;
+  }): Promise<{ jobId: string; status: 'queued' }> {
+    return this.request('POST', '/api/v1/school/reports/generate', data);
+  }
+
+  async getReportJob(jobId: string): Promise<ReportJobResult> {
+    return this.request('GET', `/api/v1/school/reports/jobs/${encodeURIComponent(jobId)}`);
+  }
+
   // ── Attendance ────────────────────────────────────────────────────────────────
 
   async getClassAttendance(classId: string, date: string): Promise<ClassAttendanceResponse> {
@@ -330,6 +467,30 @@ export class AvantiApiClient {
 
   async deleteTimetableSlot(id: string): Promise<void> {
     await this.request('DELETE', `/api/v1/school/timetable/slots/${encodeURIComponent(id)}`);
+  }
+
+  // ── Billing ───────────────────────────────────────────────────────────────────
+
+  async getSubscription(): Promise<BillingSubscription> {
+    return this.request('GET', '/api/v1/school/billing');
+  }
+
+  async createSubscription(data: {
+    tier:              'starter' | 'growth' | 'enterprise';
+    billingCycle:      'monthly' | 'annual';
+    customerName:      string;
+    customerEmail:     string;
+    customerContact?:  string;
+  }): Promise<{ subscriptionId: string; paymentUrl: string }> {
+    return this.request('POST', '/api/v1/school/billing/subscribe', data);
+  }
+
+  async cancelSubscription(): Promise<{ success: boolean; message: string }> {
+    return this.request('POST', '/api/v1/school/billing/cancel');
+  }
+
+  async listBillingInvoices(): Promise<BillingInvoice[]> {
+    return this.request('GET', '/api/v1/school/billing/invoices');
   }
 
   // ── AI Voice ─────────────────────────────────────────────────────────────────

@@ -1,7 +1,6 @@
 'use client';
 
 // Avanti — User Menu (Top Bar)
-// Shows logged-in user's name + role, with a logout action.
 
 import { useRouter } from 'next/navigation';
 import { getApiClient } from '../lib/api';
@@ -15,50 +14,49 @@ export function UserMenu() {
   if (!user) return null;
 
   async function handleLogout() {
-    try {
-      await getApiClient().logout(user!.schoolId);
-    } catch {
-      // Ignore logout errors — clear session regardless
-    }
+    try { await getApiClient().logout(user!.schoolId); } catch { /* ignore */ }
     clearAuth();
     router.replace('/login');
   }
 
+  const initials = user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-      {/* Avatar + name */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-        <div
-          style={{
-            width:          '30px',
-            height:         '30px',
-            borderRadius:   '50%',
-            background:     'var(--color-brand-500)',
-            color:          '#fff',
-            display:        'flex',
-            alignItems:     'center',
-            justifyContent: 'center',
-            fontSize:       '12px',
-            fontWeight:     700,
-            flexShrink:     0,
-          }}
-        >
-          {user.name.charAt(0).toUpperCase()}
+      {/* Name + role */}
+      <div style={{ textAlign: 'right', lineHeight: 1.2 }}>
+        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
+          {user.name}
         </div>
-        <div>
-          <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>
-            {user.name}
-          </div>
-          <div style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.2 }}>
-            {user.role}
-          </div>
+        <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          {user.role}
         </div>
       </div>
 
-      {/* Divider */}
-      <div style={{ width: '1px', height: '24px', background: 'var(--color-gray-200)' }} />
+      {/* Avatar */}
+      <div
+        style={{
+          width:          34,
+          height:         34,
+          borderRadius:   '50%',
+          background:     'linear-gradient(135deg, #1A3C6B 0%, #4F7AC7 100%)',
+          color:          '#fff',
+          display:        'flex',
+          alignItems:     'center',
+          justifyContent: 'center',
+          fontSize:       12,
+          fontWeight:     700,
+          flexShrink:     0,
+          letterSpacing:  '0.02em',
+        }}
+      >
+        {initials}
+      </div>
 
-      {/* Logout */}
+      {/* Divider */}
+      <div style={{ width: 1, height: 20, background: 'var(--color-gray-200)' }} />
+
+      {/* Sign out */}
       <button
         onClick={() => { void handleLogout(); }}
         style={{

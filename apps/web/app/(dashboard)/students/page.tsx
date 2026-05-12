@@ -1,7 +1,6 @@
 'use client';
 
 // Avanti — Students List Page
-// Paginated table with search + class filter.
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -10,34 +9,39 @@ import type { Student, SchoolClass } from '@avanti/types';
 
 const PAGE_SIZE = 25;
 
-// ── Gender badge ──────────────────────────────────────────────────────────────
+// ── Avatar ────────────────────────────────────────────────────────────────────
 
-function GenderBadge({ gender }: { gender?: string | null | undefined }) {
-  if (!gender) return null;
-  const map: Record<string, string> = {
-    MALE:   '#3b82f6',
-    FEMALE: '#ec4899',
-    OTHER:  '#8b5cf6',
-  };
-  const label: Record<string, string> = { MALE: 'M', FEMALE: 'F', OTHER: 'O' };
+const AVATAR_COLORS = [
+  ['#EEF2FF', '#4F6DA8'],
+  ['#D1FAE5', '#059669'],
+  ['#FEF3C7', '#D97706'],
+  ['#FCE7F3', '#BE185D'],
+  ['#EDE9FE', '#7C3AED'],
+  ['#DBEAFE', '#1D4ED8'],
+];
+
+function Avatar({ name }: { name: string }) {
+  const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  const [bg, fg] = AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length]!;
   return (
-    <span
+    <div
       style={{
-        display:      'inline-block',
-        width:        '20px',
-        height:       '20px',
-        borderRadius: '50%',
-        background:   map[gender] ?? '#9ca3af',
-        color:        '#fff',
-        fontSize:     '10px',
-        fontWeight:   700,
-        textAlign:    'center',
-        lineHeight:   '20px',
-        flexShrink:   0,
+        width:          32,
+        height:         32,
+        borderRadius:   '50%',
+        background:     bg,
+        color:          fg,
+        display:        'flex',
+        alignItems:     'center',
+        justifyContent: 'center',
+        fontSize:       11,
+        fontWeight:     700,
+        flexShrink:     0,
+        letterSpacing:  '0.02em',
       }}
     >
-      {label[gender] ?? '?'}
-    </span>
+      {initials}
+    </div>
   );
 }
 
@@ -53,7 +57,6 @@ export default function StudentsPage() {
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState<string | null>(null);
 
-  // Load classes for filter dropdown
   useEffect(() => {
     void getApiClient().getClasses().then(setClasses).catch(() => {/* ignore */});
   }, []);
@@ -63,9 +66,8 @@ export default function StudentsPage() {
     setError(null);
     try {
       const result = await getApiClient().getStudents({
-        page:    p,
-        limit:   PAGE_SIZE,
-        ...(q   ? { search: q }   : {}),
+        page: p, limit: PAGE_SIZE,
+        ...(q   ? { search: q }    : {}),
         ...(cid ? { classId: cid } : {}),
       });
       setStudents(result.data);
@@ -77,32 +79,34 @@ export default function StudentsPage() {
     }
   }, []);
 
-  useEffect(() => {
-    void load(page, search, classId);
-  }, [load, page, search, classId]);
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
-  };
+  useEffect(() => { void load(page, search, classId); }, [load, page, search, classId]);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+    <div className="avanti-page" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
-          <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+          <h1
+            style={{
+              fontSize:      'var(--text-2xl)',
+              fontWeight:    700,
+              color:         'var(--text-primary)',
+              margin:        0,
+              letterSpacing: '-0.02em',
+            }}
+          >
             Students
           </h1>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', marginTop: 'var(--space-1)' }}>
-            {total > 0 ? `${total} students` : 'Loading…'}
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', margin: 'var(--space-1) 0 0' }}>
+            {loading ? 'Loading…' : `${total} students enrolled`}
           </p>
         </div>
         <Link
           href="/students/new"
+          className="btn-brand"
           style={{
             display:        'inline-flex',
             alignItems:     'center',
@@ -114,12 +118,13 @@ export default function StudentsPage() {
             fontSize:       'var(--text-sm)',
             fontWeight:     600,
             textDecoration: 'none',
+            height:         38,
           }}
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 1v10M1 6h10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-          Add Student
+          Add student
         </Link>
       </div>
 
@@ -128,17 +133,20 @@ export default function StudentsPage() {
         <input
           type="search"
           value={search}
-          onChange={handleSearch}
+          onChange={e => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by name or admission number…"
+          className="avanti-input"
           style={{
             flex:         '1 1 240px',
             padding:      'var(--space-2) var(--space-3)',
-            border:       '1px solid var(--color-gray-300)',
+            border:       '1px solid var(--color-gray-200)',
             borderRadius: 'var(--radius-md)',
             fontSize:     'var(--text-sm)',
-            background:   'var(--surface-card)',
+            background:   '#fff',
             color:        'var(--text-primary)',
             outline:      'none',
+            height:       38,
+            boxShadow:    '0 1px 2px rgba(0,0,0,0.04)',
           }}
         />
         <select
@@ -146,12 +154,15 @@ export default function StudentsPage() {
           onChange={e => { setClassId(e.target.value); setPage(1); }}
           style={{
             padding:      'var(--space-2) var(--space-3)',
-            border:       '1px solid var(--color-gray-300)',
+            border:       '1px solid var(--color-gray-200)',
             borderRadius: 'var(--radius-md)',
             fontSize:     'var(--text-sm)',
-            background:   'var(--surface-card)',
+            background:   '#fff',
             color:        'var(--text-primary)',
-            minWidth:     '160px',
+            minWidth:     160,
+            height:       38,
+            boxShadow:    '0 1px 2px rgba(0,0,0,0.04)',
+            outline:      'none',
           }}
         >
           <option value="">All classes</option>
@@ -166,12 +177,9 @@ export default function StudentsPage() {
       {/* Error */}
       {error && (
         <div style={{
-          background: 'var(--color-error-50, #fef2f2)',
-          border: '1px solid var(--color-error-200, #fecaca)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-3)',
-          fontSize: 'var(--text-sm)',
-          color: 'var(--color-error-700, #b91c1c)',
+          background: '#FEF2F2', border: '1px solid #FECACA',
+          borderRadius: 'var(--radius-md)', padding: 'var(--space-3) var(--space-4)',
+          fontSize: 'var(--text-sm)', color: '#B91C1C',
         }}>
           {error}
         </div>
@@ -180,26 +188,27 @@ export default function StudentsPage() {
       {/* Table */}
       <div
         style={{
-          background:   'var(--surface-card)',
-          border:       '1px solid var(--color-gray-200)',
-          borderRadius: 'var(--radius-lg)',
+          background:   '#fff',
+          borderRadius: 'var(--radius-xl)',
           overflow:     'hidden',
+          boxShadow:    '0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)',
         }}
       >
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-sm)' }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid var(--color-gray-200)', background: 'var(--color-gray-50)' }}>
-              {['Admission No.', 'Name', 'Class', 'Gender', 'Parent', 'Phone', ''].map(h => (
+            <tr style={{ borderBottom: '1px solid var(--color-gray-100)' }}>
+              {['Student', 'Admission No.', 'Class', 'Parent / Phone', ''].map((h, i) => (
                 <th
-                  key={h}
+                  key={i}
                   style={{
-                    padding:   'var(--space-3) var(--space-4)',
-                    textAlign: 'left',
-                    fontWeight: 600,
-                    color:     'var(--text-muted)',
-                    fontSize:  '11px',
+                    padding:       'var(--space-3) var(--space-4)',
+                    textAlign:     'left',
+                    fontWeight:    600,
+                    color:         'var(--text-muted)',
+                    fontSize:      10,
                     textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
+                    letterSpacing: '0.08em',
+                    whiteSpace:    'nowrap',
                   }}
                 >
                   {h}
@@ -210,14 +219,23 @@ export default function StudentsPage() {
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={7} style={{ padding: 'var(--space-10)', textAlign: 'center', color: 'var(--text-muted)' }}>
-                  Loading…
+                <td colSpan={5} style={{ padding: 'var(--space-12)', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)' }}>
+                    <div style={{
+                      width: 16, height: 16,
+                      border: '2px solid var(--color-brand-100)',
+                      borderTop: '2px solid var(--color-brand-500)',
+                      borderRadius: '50%',
+                      animation: 'avanti-spin 0.7s linear infinite',
+                    }} />
+                    Loading students…
+                  </div>
                 </td>
               </tr>
             )}
             {!loading && students.length === 0 && (
               <tr>
-                <td colSpan={7} style={{ padding: 'var(--space-10)', textAlign: 'center', color: 'var(--text-muted)' }}>
+                <td colSpan={5} style={{ padding: 'var(--space-12)', textAlign: 'center', color: 'var(--text-muted)' }}>
                   No students found.
                 </td>
               </tr>
@@ -225,36 +243,80 @@ export default function StudentsPage() {
             {students.map((s, i) => (
               <tr
                 key={s.id}
-                style={{
-                  borderBottom: i < students.length - 1 ? '1px solid var(--color-gray-100)' : 'none',
-                }}
+                className="avanti-row"
+                style={{ borderBottom: i < students.length - 1 ? '1px solid var(--color-gray-100)' : 'none' }}
               >
-                <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-muted)', fontFamily: 'var(--font-mono, monospace)', fontSize: '12px' }}>
+                {/* Student */}
+                <td style={{ padding: 'var(--space-3) var(--space-4)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                    <Avatar name={`${s.firstName} ${s.lastName}`} />
+                    <div>
+                      <Link
+                        href={`/students/${s.id}`}
+                        style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: 600, fontSize: 'var(--text-sm)' }}
+                      >
+                        {s.firstName} {s.lastName}
+                      </Link>
+                      {s.gender && (
+                        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>
+                          {s.gender.charAt(0) + s.gender.slice(1).toLowerCase()}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </td>
+                {/* Admission No */}
+                <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
                   {s.admissionNumber}
                 </td>
-                <td style={{ padding: 'var(--space-3) var(--space-4)', fontWeight: 500 }}>
-                  <Link href={`/students/${s.id}`} style={{ color: 'var(--color-brand-600)', textDecoration: 'none' }}>
-                    {s.firstName} {s.lastName}
-                  </Link>
-                </td>
-                <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-secondary)' }}>
-                  {s.className ?? '—'}
-                </td>
+                {/* Class */}
                 <td style={{ padding: 'var(--space-3) var(--space-4)' }}>
-                  <GenderBadge gender={s.gender} />
+                  {s.className ? (
+                    <span
+                      style={{
+                        display:      'inline-block',
+                        padding:      '2px 8px',
+                        background:   'var(--color-brand-50)',
+                        color:        'var(--color-brand-600)',
+                        borderRadius: 'var(--radius-full)',
+                        fontSize:     11,
+                        fontWeight:   600,
+                      }}
+                    >
+                      {s.className}
+                    </span>
+                  ) : (
+                    <span style={{ color: 'var(--text-muted)' }}>—</span>
+                  )}
                 </td>
-                <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-secondary)' }}>
-                  {s.parentName ?? '—'}
+                {/* Parent */}
+                <td style={{ padding: 'var(--space-3) var(--space-4)' }}>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>{s.parentName ?? '—'}</div>
+                  {(s.parentPhone ?? s.phone) && (
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1, fontFamily: 'var(--font-mono)' }}>
+                      {s.parentPhone ?? s.phone}
+                    </div>
+                  )}
                 </td>
-                <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-secondary)' }}>
-                  {s.parentPhone ?? s.phone ?? '—'}
-                </td>
+                {/* View */}
                 <td style={{ padding: 'var(--space-3) var(--space-4)', textAlign: 'right' }}>
                   <Link
                     href={`/students/${s.id}`}
-                    style={{ color: 'var(--text-muted)', fontSize: '12px', textDecoration: 'none' }}
+                    style={{
+                      display:      'inline-flex',
+                      alignItems:   'center',
+                      gap:          4,
+                      color:        'var(--color-brand-500)',
+                      fontSize:     'var(--text-xs)',
+                      fontWeight:   500,
+                      textDecoration: 'none',
+                      opacity:      0.7,
+                    }}
                   >
-                    View →
+                    View
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M4.5 9l3-3-3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </Link>
                 </td>
               </tr>
@@ -265,15 +327,15 @@ export default function StudentsPage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-2)', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 'var(--space-2)' }}>
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
             style={{
               padding:      'var(--space-2) var(--space-3)',
-              border:       '1px solid var(--color-gray-300)',
+              border:       '1px solid var(--color-gray-200)',
               borderRadius: 'var(--radius-md)',
-              background:   'var(--surface-card)',
+              background:   '#fff',
               cursor:       page === 1 ? 'not-allowed' : 'pointer',
               opacity:      page === 1 ? 0.4 : 1,
               fontSize:     'var(--text-sm)',
@@ -281,17 +343,17 @@ export default function StudentsPage() {
           >
             ← Prev
           </button>
-          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
-            Page {page} of {totalPages}
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', minWidth: 80, textAlign: 'center' }}>
+            {page} / {totalPages}
           </span>
           <button
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
             style={{
               padding:      'var(--space-2) var(--space-3)',
-              border:       '1px solid var(--color-gray-300)',
+              border:       '1px solid var(--color-gray-200)',
               borderRadius: 'var(--radius-md)',
-              background:   'var(--surface-card)',
+              background:   '#fff',
               cursor:       page === totalPages ? 'not-allowed' : 'pointer',
               opacity:      page === totalPages ? 0.4 : 1,
               fontSize:     'var(--text-sm)',
@@ -301,6 +363,11 @@ export default function StudentsPage() {
           </button>
         </div>
       )}
+
+      <style>{`
+        @keyframes avanti-spin { to { transform: rotate(360deg); } }
+        .avanti-row:hover td { background: #F9FAFB; }
+      `}</style>
     </div>
   );
 }
